@@ -1,0 +1,50 @@
+<ion-content padding>
+
+    <div class="login-background" padding>
+
+        <ion-row>
+            <ion-col text-center>
+                <h1 class="brand-name">Login</h1>
+            </ion-col>
+        </ion-row>
+        <form #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off">
+            <ion-row>
+                <ion-col>
+                    <ion-list>
+
+                        <ion-item>
+                            <ion-label floating>Username</ion-label>
+                            <ion-input name="email" type="email" required [(ngModel)]="email"></ion-input>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label floating>Password</ion-label>
+                            <ion-input name="password" type="password" required [(ngModel)]="password"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Remember me</ion-label>
+                            <ion-checkbox color="primary" checked="true" name="remember" [(ngModel)]="remember"></ion-checkbox>
+                        </ion-item>
+
+                    </ion-list>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+
+                    <button ion-button class="submit-btn" block type="submit" [disabled]="!loginForm.form.valid">Login
+            </button>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col>
+                    <button ion-button block type="button" (click)="register()">SignUP
+            </button>
+                </ion-col>
+            </ion-row>
+
+        </form>
+
+    </div>
+</ion-content>

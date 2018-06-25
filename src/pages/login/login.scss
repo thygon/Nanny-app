@@ -1,0 +1,14 @@
+page-login {
+    .login-background {
+        position: relative;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .brand-name {
+        font-size: 40px;
+    }
+    ion-item {
+        background-color: transparent !important;
+    }
+}

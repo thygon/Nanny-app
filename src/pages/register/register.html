@@ -1,0 +1,50 @@
+<ion-header>
+
+    <ion-navbar color="primary">
+        <ion-title>register</ion-title>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form #RegisterForm="ngForm" (ngSubmit)="registerUser()" autocomplete="off">
+
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating>Name</ion-label>
+                        <ion-input name="name" type="text" required [(ngModel)]="formData.name"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Email</ion-label>
+                        <ion-input name="email" type="email" required [(ngModel)]="formData.email"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label fixed>D.O.B</ion-label>
+                        <ion-datetime item-end displayFormat="MM/DD/YYYY" pickerFormat="MMM DDD YYYY" [(ngModel)]="formData.dob" name='dob'></ion-datetime>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Role</ion-label>
+                        <ion-select name="isrole" [(ngModel)]="formData.role">
+                            <ion-option *ngFor="let role of roles" value="{{ role.id}}">{{role.role}}</ion-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Password</ion-label>
+                        <ion-input name="password" type="password" required [(ngModel)]="formData.password"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label floating>Confirm Password</ion-label>
+                        <ion-input name="confirmpassword" type="password" required [(ngModel)]="formData.confirmpassword"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <button ion-button class="submit-btn" block type="submit" [disabled]="!RegisterForm.form.valid">SignUp</button>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </form>
+
+</ion-content>
