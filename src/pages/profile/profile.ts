@@ -18,10 +18,13 @@ import { AuthProvider } from '../../providers/auth/auth';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  regData = { dpic:'',level:''};
+
   imgPreview = 'assets/imgs/logo.png';
   response: any =[];
-  profile: any =[];
+  profile: any = {
+    'id':'','dob':'','age':'','shortmsg':'','level':'','dpic':''
+    ,'goodconduct':'','postal':'','city':'','code':''
+  };
 
   constructor(public navCtrl: NavController,
      public navParams: NavParams,
@@ -44,7 +47,7 @@ export class ProfilePage {
       for (var i = 0; i < results.length; i++) {
         this.imgPreview = results[i];
         this.base64.encodeFile(results[i]).then((base64File: string) => {
-          this.regData.dpic = base64File;
+          this.profile.dpic = base64File;
         }, (err) => {
           console.log(err);
         });
@@ -56,10 +59,14 @@ export class ProfilePage {
     this.authService.doGet('profile').then(res =>{
       this.response = res;
       this.profile = this.response.data;
-      console.log(this.profile);
+      console.log(this.profile.age);
     }, (e) =>{
       console.log(e);
     });
+  }
+
+  updateProfile(){
+    console.log(this.profile);
   }
 
 }

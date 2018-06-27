@@ -23,35 +23,47 @@
 
 <ion-content padding>
     <h2>Profile</h2>
-    <p>{{ profile | json}}</p>
-    <p>{{profile.dob || json}}</p>
-    <form (ngSubmit)="register()" #regForm="ngForm">
+    <form (ngSubmit)="updateProfile()" #profileForm="ngForm">
         <ion-list>
             <ion-item>
                 <ion-label fixed>Profile Picture</ion-label>
                 <ion-avatar item-end>
                     <img src="{{imgPreview}}" (click)="getPhoto()">
+                    <ion-input type="hidden" [(ngModel)]="profile.dpic" name='dpic'></ion-input>
                 </ion-avatar>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>DOB</ion-label>
+                <ion-input item-end type="text" disabled='true' [(ngModel)]="profile.dob" name='dob'></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label fixed>Age</ion-label>
+                <ion-input item-end type="text" disabled='true' [(ngModel)]="profile.age" name='age'></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-label fixed>level</ion-label>
-                <ion-input item-end type="text" placeholder="Educational level" [(ngModel)]="regData.level" name='level'></ion-input>
+                <ion-input item-end type="text" placeholder="Educational level" [(ngModel)]="profile.level" name='level' required></ion-input>
             </ion-item>
             <ion-item>
-                <ion-label>Address</ion-label>
-                <ion-label floating>City</ion-label>
-                <ion-input></ion-input>
-                <ion-label floating>code</ion-label>
-                <ion-input></ion-input>
+                <ion-label>Postal Addresss</ion-label>
+                <ion-input type="text" name="postal" [(ngModel)]="profile.postal" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Town</ion-label>
+                <ion-input type="text" name="town" [(ngModel)]="profile.city" required></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Postal Code</ion-label>
+                <ion-input type="text" name="code" [(ngModel)]="profile.code"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-label fixed>Shortmsg</ion-label>
-                <ion-textarea></ion-textarea>
+                <ion-textarea name="shortmsg" [(ngModel)]="profile.shortmsg" required></ion-textarea>
             </ion-item>
         </ion-list>
         <div padding>
-            <button ion-button full [disabled]="regForm.invalid">Register</button>
+            <button ion-button full [disabled]="profileForm.invalid">Update Profile</button>
         </div>
     </form>
 </ion-content>
