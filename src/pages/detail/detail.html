@@ -1,0 +1,54 @@
+<!--
+  Generated template for the DetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Details</ion-title>
+        <ion-buttons end>
+            <button ion-button (click)="logout()">
+              Logout
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-list-header>
+            <ion-avatar *ngIf="profile.dpic" item-start>
+                <img [src]="profile.dpic" alt="profile image">
+            </ion-avatar>
+            {{nani.name}}
+        </ion-list-header>
+        <ion-item>Age: {{profile.age}}</ion-item>
+        <ion-item>Email: {{nani.email}}</ion-item>
+        <ion-item>Good Conduct Document:
+            <p text-wrap>{{profile.goodconduct}}</p>
+        </ion-item>
+        <ion-item>Address
+            <p text-wrap>{{profile.address | json }}</p>
+        </ion-item>
+        <ion-item>Education Level: {{profile.level }}</ion-item>
+        <ion-item>Rated: {{'4 stars'}}</ion-item>
+    </ion-list>
+
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-row>
+            <ion-col><button ion-button full (click)="message(nani.id)">Message</button></ion-col>
+            <ion-col><button ion-button full (click)="employ(nani.id)">Employ</button></ion-col>
+        </ion-row>
+    </ion-toolbar>
+</ion-footer>

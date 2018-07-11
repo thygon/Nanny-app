@@ -22,15 +22,9 @@ export class RegisterPage {
      'role':'', 'name':'','email':'','password':'','confirmpassword':'','dob':'',
   };
 
-  private isrole:string;
-  private name:string;
-  private email:string;
-  private password:string;
-  private confirmpassword:string;
   private loader;
-
-  roles = [];
-  response:any = [];
+  private roles = [];
+  private response:any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private authService: AuthProvider, public loadingCtrl: LoadingController, 
@@ -40,7 +34,6 @@ export class RegisterPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
     this.getRoles();
-    console.log(this.isrole);
   }
 
   presentLoading(msg) {

@@ -6,8 +6,7 @@ import { Storage } from '@ionic/storage';
 
 import { AuthProvider } from '../../providers/auth/auth';
 
-import { NaniPage } from '../../pages/nani/nani';
-import { MamaPage } from '../../pages/mama/mama';
+import { HomePage } from '../../pages/home/home';
 import { RegisterPage } from '../../pages/register/register';
 
 /**
@@ -63,7 +62,7 @@ export class LoginPage {
     this.presentLoading("Please wait");
     this.authService.signIn(
       {'email':this.email,
-      'password':this.password},'user')
+      'password':this.password,'remember': this.remember},'user')
       .then(data =>{
         this.loader.dismiss();
         console.log(data);
@@ -72,20 +71,11 @@ export class LoginPage {
 
         if (this.res.response != "error" ){
            //store token
-           //localStorage.setItem('apitoken',this.res.result.token);
             this.store.set('apitoken',this.res.result.token);
             this.presentToast(this.res.result.message);
-            console.log(this.res.result.role);
-
-            this.res.result.role.forEach(role => {
-              if (role == "nany") {
-                this.navCtrl.setRoot(NaniPage);
-              } else if (role == "mama") {
-
-                this.navCtrl.setRoot(MamaPage);
-              }
-            });
             
+            this.navCtrl.setRoot(HomePage);
+           
         }else{
             this.presentToast(this.res.message);
         }

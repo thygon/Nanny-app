@@ -9,19 +9,20 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 
 import { LoginPage } from '../pages/login/login';
-import { NaniPage } from '../pages/nani/nani';
-import { MamaPage } from '../pages/mama/mama';
+import { HomePage } from '../pages/home/home';
 import { RegisterPage } from '../pages/register/register';
 import { RequestsPage } from '../pages/requests/requests';
 import { ProfilePage }  from '../pages/profile/profile';
-import { MyRequestsPage } from '../pages/my-requests/my-requests';
+import { AccountPage } from '../pages/account/account';
+import { DetailPage } from '../pages/detail/detail';
+import { MessagePage } from '../pages/message/message';
+import { NotificationPage } from '../pages/notification/notification';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth';
-import { MamaProvider } from '../providers/mama/mama';
-import { NaniProvider } from '../providers/nani/nani';
+import { AppProvider } from '../providers/app/app';
 
 
 
@@ -38,12 +39,14 @@ export function jwtOptionsFactory(storage: Storage) {
   declarations: [
     MyApp,
     LoginPage,
-    MamaPage,
-    NaniPage,
+    HomePage,
     RegisterPage,
     RequestsPage,
     ProfilePage,
-    MyRequestsPage
+    AccountPage,
+    DetailPage,
+    MessagePage,
+    NotificationPage
   ],
   imports: [
     BrowserModule,
@@ -62,22 +65,23 @@ export function jwtOptionsFactory(storage: Storage) {
   entryComponents: [
     MyApp,
     LoginPage,
-    MamaPage,
-    NaniPage,
+    HomePage,
     RegisterPage,
     RequestsPage,
     ProfilePage,
-    MyRequestsPage
+    AccountPage,
+    DetailPage,
+    MessagePage,
+    NotificationPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    MamaProvider,
-    NaniProvider,
     ImagePicker,
-    Base64
+    Base64,
+    AppProvider
   ]
 })
 export class AppModule {}

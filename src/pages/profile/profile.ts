@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
+import { Storage } from '@ionic/storage';
 
 import { AuthProvider } from '../../providers/auth/auth';
+
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the ProfilePage page.
@@ -23,14 +26,16 @@ export class ProfilePage {
   response: any =[];
   profile: any = {
     'id':'','dob':'','age':'','shortmsg':'','level':'','dpic':''
-    ,'goodconduct':'','postal':'','city':'','code':''
+    , 'goodconduct': '', 'postal': '', 'city': '', 'code': '',
   };
-
   constructor(public navCtrl: NavController,
      public navParams: NavParams,
      private authService: AuthProvider,
      private imagePicker: ImagePicker,
-     private base64: Base64) {
+     private base64: Base64, 
+     public toastCtrl: ToastController,
+    public store : Storage) {
+
   }
 
   ionViewDidLoad() {
@@ -39,7 +44,17 @@ export class ProfilePage {
     this.getProfile();
   }
 
+  presentToast(data) {
+    const toast = this.toastCtrl.create({
+      message: data,
+      duration: 3000
+    });
+    toast.present();
+  }
+
   getPhoto() {
+    this.profile.dpic = this.imgPreview;
+    console.log(this.profile);
     let options = {
       maximumImagesCount: 1
     };
@@ -59,14 +74,41 @@ export class ProfilePage {
     this.authService.doGet('profile').then(res =>{
       this.response = res;
       this.profile = this.response.data;
-      console.log(this.profile.age);
+      console.log(this.profile);
+      this.profile.postal = this.profile.address.postal;
+      console.log(this.profile.postal);
+      this.profile.city = this.profile.address.city;
+      this.profile.code = this.profile.address.code;
     }, (e) =>{
       console.log(e);
     });
   }
 
   updateProfile(){
-    console.log(this.profile);
+  this.authService.doPost(this.profile,'update/profile')
+    .then(res =>{
+      this.response = res; 
+      this.presentToast(this.response.message);
+     console.log(res);
+    }, (e) =>{
+      this.presentToast(e);
+      console.log(e);
+    });
+  }
+
+
+  logout() {
+    this.authService.signOut().then(res => {
+      console.log(res);
+      this.response = res;
+
+      if (this.response.status == "success") {
+        this.presentToast('LoggedOut successfully');
+
+        this.store.remove('apitoken');
+        this.navCtrl.setRoot(LoginPage);
+      }
+    });
   }
 
 }

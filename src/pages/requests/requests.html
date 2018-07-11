@@ -23,15 +23,60 @@
 
 <ion-content>
 
-    <ion-list inset>
-        <ion-card *ngFor="let nani of nanis">
+    <ion-list *ngIf="isMama" inset>
+        <ion-card *ngFor="let request of myRequests">
             <ion-card-header color="primary">
-                {{nani.name}}
+                {{request.nani.name}}
             </ion-card-header>
             <ion-card-content>
                 The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.
             </ion-card-content>
+            <ion-toolbar>
+                <ion-buttons>
+                    <button (click)="abortRequest(request.id)" ion-button color="primary" round>
+                        Abort Request
+                    </button>
+                    <button *ngIf="request.confirmed == 1" (click)="detailRequest(request.id)" ion-button color="primary" round>
+                        Details
+                    </button>
+                </ion-buttons>
+                <ion-buttons>
+                    <button *ngIf="request.confirmed == 0">Pending Confirmation</button>
+                    <button *ngIf="request.confirmed == 2">Request Rejected</button>
+                </ion-buttons>
+            </ion-toolbar>
         </ion-card>
+        <div *ngIf="myRequests.length == 0 ">
+            <h1 text-center>Oooops! No requests!</h1>
+        </div>
+    </ion-list>
+
+    <ion-list *ngIf="!isMama" inset>
+        <ion-card *ngFor="let request of myRequests">
+            <ion-card-header color="primary">
+                {{request.user.name}}
+            </ion-card-header>
+            <ion-card-content>
+                The British use the term "header", but the American term "head-shot" the English simply refuse to adopt.
+            </ion-card-content>
+            <ion-toolbar>
+                <ion-buttons>
+                    <button *ngIf="request.confirmed == 1" ion-button>Confirmed</button>
+                    <button *ngIf="request.confirmed == 0 " (click)="confirmRequest(request.id)" ion-button icon-only color="primary">
+                        Confirm Request
+                    </button>
+                    <button (click)="rejectRequest(request.id)" ion-button color="primary">
+                        Reject Request
+                    </button>
+                    <button (click)="detailRequest(request.id)" ion-button color="primary" round>
+                        Details
+                    </button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-card>
+        <div *ngIf="myRequests.length == 0 ">
+            <h1 text-center>Oooops! No requests!</h1>
+        </div>
     </ion-list>
 
 </ion-content>

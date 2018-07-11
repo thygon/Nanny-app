@@ -14,7 +14,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthProvider {
 
-  apiUrl = 'http://127.0.0.1:8000/api/';
+  private apiUrl = 'http://192.168.137.1:8000/api/';
+  //private apiUrl = "http://127.0.0.1:8000/api/";
 
   constructor(public http: HttpClient, private jwtHelper : JwtHelperService, public storage :Storage) {
     console.log('Hello AuthProvider Provider');
@@ -105,6 +106,24 @@ export class AuthProvider {
 
     });
   }
+
+  //get
+  doPost(data, source) {
+
+    return this.storage.get('apitoken').then(token => {
+
+      return new Promise(resolve => {
+        this.http.post(this.apiUrl + source + '?token=' + token,data)
+          .subscribe(res => {
+            resolve(res);
+          }, e => {
+            console.log(e);
+          });
+      });
+
+    });
+  }
+
   getToken(){
     this.storage.get('apitoken').then(token => {
       let tokenn:string = token;
