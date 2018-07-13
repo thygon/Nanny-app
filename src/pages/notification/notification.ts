@@ -62,7 +62,11 @@ export class NotificationPage {
     this.app.patch(noti_id, {},'notification/read/').then(res =>{
         console.log(res);
     });
-    let page = who+'page';
+    var page;
+    if (who == 'Requests'){
+      page = RequestsPage;
+    }
+    
     this.navCtrl.push(page, {'id': req_id});
 
   }

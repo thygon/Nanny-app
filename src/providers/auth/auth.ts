@@ -14,8 +14,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthProvider {
 
-  private apiUrl = 'http://192.168.137.1:8000/api/';
-  //private apiUrl = "http://127.0.0.1:8000/api/";
+  //private apiUrl = 'http://192.168.137.1:8000/api/';
+  private apiUrl = "http://127.0.0.1:8000/api/";
 
   constructor(public http: HttpClient, private jwtHelper : JwtHelperService, public storage :Storage) {
     console.log('Hello AuthProvider Provider');

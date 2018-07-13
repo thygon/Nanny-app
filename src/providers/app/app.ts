@@ -13,8 +13,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AppProvider {
 
-  private API = "http://192.168.137.1:8000/api/";
-  //private API = "http://127.0.0.1:8000/api/";
+  //private API = "http://192.168.137.1:8000/api/";
+  private API = "http://127.0.0.1:8000/api/";
 
   constructor(public http: HttpClient,
               public store: Storage

@@ -45,6 +45,14 @@ export class DetailPage {
     this.getDetails(this.nani_id);
   }
 
+  presentToast(data) {
+    const toast = this.toastCtrl.create({
+      message: data,
+      duration: 3000
+    });
+    toast.present();
+  }
+
   getDetails(id){
     this.app.getWithId(id, 'mama/nani').then(res =>{
       this.response = res;
@@ -67,13 +75,7 @@ export class DetailPage {
     console.log('Message');
   }
   
-  presentToast(data) {
-    const toast = this.toastCtrl.create({
-      message: data,
-      duration: 3000
-    });
-    toast.present();
-  }
+  
 
   logout() {
     this.auth.signOut().then(res => {
