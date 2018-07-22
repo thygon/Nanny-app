@@ -60,6 +60,7 @@ export class TextPage {
       this.response = res;
       this.mytext = '';
       this.presentToast(this.response.msg);
+      this.getTexts();
     }); 
   }else{
       this.presentToast('Enter message!');

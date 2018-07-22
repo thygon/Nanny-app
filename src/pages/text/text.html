@@ -36,7 +36,7 @@
     <ion-list no-lines>
         <ion-item>
             <ion-input type="text" [(ngModel)]="mytext" name="mytext" placeholder="Message" item-start></ion-input>
-            <button ion-button (click)="sendText()" item-end icon-only>
+            <button class="send-text-btn" (click)="sendText()" item-end icon-only>
                     <ion-icon name="send"></ion-icon>
                     </button>
         </ion-item>

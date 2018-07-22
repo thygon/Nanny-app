@@ -24,7 +24,7 @@
 
 <ion-content padding>
     <p text-center *ngIf="acc == null">No account!</p>
-    <ion-list>
+    <ion-list *ngIf="acc != null">
         <ion-list-header no-lines>
             <h1>My Account</h1>
             <p>amount:
@@ -33,16 +33,17 @@
         </ion-list-header>
         <ion-list-header no-lines>
             <h1>Account History</h1>
+            <ion-item *ngFor="let h of history">
+                <p>Balance: Ksh {{h.history.bal}}</p>
+                <p>Description</p>
+                <p>{{h.created_at}}</p>
+            </ion-item>
         </ion-list-header>
-        <ion-item *ngFor="let h of history">
-            <p>Balance: Ksh {{h.history.bal}}</p>
-            <p>Description</p>
-            <p>{{h.created_at}}</p>
-        </ion-item>
+
     </ion-list>
 </ion-content>
 <ion-footer>
     <ion-toolbar>
-        <button color="primary" outline full ion-button>Deposit Money</button>
+        <button color="primary" outline full ion-button (click)="makeDeposit()">Deposit Money</button>
     </ion-toolbar>
 </ion-footer>

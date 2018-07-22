@@ -20,7 +20,7 @@ import { LoginPage } from '../login/login';
 })
 export class AccountPage {
 
-  private acc: any = [];
+  private acc: any = null;
   private history: any =[]; 
   private response: any = [];
 
@@ -51,9 +51,15 @@ export class AccountPage {
     this.app.get('mama/account/').then(res =>{
       this.response = res;
       this.acc = this.response.data;
-      this.history = this.acc.history;
+      if (this.acc != null){
+        this.history = this.acc.history;
+      }
       console.log(this.history);
     });
+  }
+
+  makeDeposit(){
+    this.presentToast('Depositing service comming soon!');
   }
 
   logout() {

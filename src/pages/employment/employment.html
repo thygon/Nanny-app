@@ -22,10 +22,9 @@
 
 
 <ion-content padding>
-
     <p text-center *ngIf="emp == null ">Not Employed!</p>
     <ion-list *ngIf="employee == null && emp != null ">
-        <ion-list-header>
+        <ion-list-header no-lines>
             My Employer
             <p>Start {{emp.created_at}}</p>
         </ion-list-header>
@@ -46,7 +45,7 @@
     </ion-list>
 
     <ion-list *ngIf="employer == null  && emp != null ">
-        <ion-list-header>
+        <ion-list-header no-lines>
             My Employee
             <p>Start {{emp.created_at}}</p>
         </ion-list-header>

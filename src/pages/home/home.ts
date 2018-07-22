@@ -77,6 +77,7 @@ export class HomePage {
     this.app.post(data, 'mama/request').then(res => {
       this.response = res;
       this.presentToast(this.response.message);
+      this.getNanis();
     });
   }
 

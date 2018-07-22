@@ -54,7 +54,7 @@ export class EmploymentPage {
         if (role == 'mama' && this.emp != null){
           this.employer = null;
           this.employee = this.emp.nani;
-        } else if (role == 'mama' && this.emp != null){
+        } else if (role == 'nany' && this.emp != null){
           this.employer = this.emp.mama;
           this.employee = null;
         }else{

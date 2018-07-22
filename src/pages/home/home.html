@@ -28,8 +28,8 @@
                 <ion-card-content>
                     <ion-row>
                         <ion-col>
-                            <ion-avatar *ngIf="nani.profile.dpic" item-start>
-                                <img [src]="nani.profile.dpic" alt="profile image">
+                            <ion-avatar *ngIf="nani.pic" item-start>
+                                <img [src]="nani.pic" alt="profile image">
                             </ion-avatar>
                         </ion-col>
                         <ion-col>
@@ -44,9 +44,11 @@
                 <ion-toolbar>
 
                     <ion-buttons>
-                        {{nani.friend.nani_id }}
-                        <button (click)="naniRequest(nani.id)" ion-button color="primary">
+                        <button *ngIf="!nani.requested" (click)="naniRequest(nani.id)" ion-button color="primary">
                             Request
+                        </button>
+                        <button *ngIf="nani.requested" ion-button color="primary">
+                            Requested
                         </button>
                     </ion-buttons>
 
@@ -64,8 +66,8 @@
                 <ion-card-content>
                     <ion-row>
                         <ion-col>
-                            <ion-avatar *ngIf="employer.profile.dpic" item-start>
-                                <img [src]="employer.profile.dpic" alt="profile image">
+                            <ion-avatar *ngIf="employer.pic" item-start>
+                                <img [src]="employer.pic" alt="profile image">
                             </ion-avatar>
                         </ion-col>
                         <ion-col>
