@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
+import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angular'; 
+import { Storage } from '@ionic/storage';
+import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
+
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the AccountPage page.
@@ -17,10 +20,16 @@ import { AppProvider } from '../../providers/app/app';
 })
 export class AccountPage {
 
-  private acc: any = {};
-  private response: any = {};
+  private acc: any = [];
+  private history: any =[]; 
+  private response: any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private app: AppProvider) {
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams, 
+    private auth: AuthProvider,
+    private app: AppProvider,
+    private store: Storage,
+    private toast: ToastController) {
 
     this.getMyAcc();
   }
@@ -29,11 +38,35 @@ export class AccountPage {
     console.log('ionViewDidLoad AccountPage');
   }
 
+  presentToast(data) {
+    const toast = this.toast.create({
+      message: data,
+      duration: 3000
+    });
+    toast.present();
+  }
+
+
   getMyAcc(){
     this.app.get('mama/account/').then(res =>{
       this.response = res;
       this.acc = this.response.data;
-      console.log(this.acc);
+      this.history = this.acc.history;
+      console.log(this.history);
+    });
+  }
+
+  logout() {
+    this.auth.signOut().then(res => {
+      console.log(res);
+      this.response = res;
+
+      if (this.response.status == "success") {
+        this.presentToast('LoggedOut successfully');
+
+        this.store.remove('apitoken');
+        this.navCtrl.setRoot(LoginPage);
+      }
     });
   }
 

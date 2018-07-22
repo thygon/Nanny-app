@@ -24,19 +24,45 @@
 <ion-content padding>
 
     <p text-center *ngIf="emp == null ">Not Employed!</p>
-    <ion-list>
+    <ion-list *ngIf="employee == null && emp != null ">
+        <ion-list-header>
+            My Employer
+            <p>Start {{emp.created_at}}</p>
+        </ion-list-header>
         <ion-item>
             <ion-avatar item-start><img src="{{employer.pic}}" alt=""></ion-avatar>
             <h2>{{employer.name}}</h2>
             <p>{{employer.email}}</p>
-            <p>{{emp.created_at}}</p>
         </ion-item>
+        <ion-buttons end padding>
+            <button ion-button>Rate</button>
+            <button ion-button>Quit</button>
+        </ion-buttons>
+
+        <ion-list-header>
+            History of Employer
+        </ion-list-header>
+
+    </ion-list>
+
+    <ion-list *ngIf="employer == null  && emp != null ">
+        <ion-list-header>
+            My Employee
+            <p>Start {{emp.created_at}}</p>
+        </ion-list-header>
+
         <ion-item>
             <ion-avatar item-start><img src="{{employee.pic}}" alt=""></ion-avatar>
             <h2>{{employee.name}}</h2>
             <p>{{employee.email}}</p>
-            <p>{{emp.created_at}}</p>
         </ion-item>
+        <ion-buttons end padding>
+            <button ion-button>Rate</button>
+            <button ion-button>Fire</button>
+        </ion-buttons>
+        <ion-list-header>
+            History of Employee
+        </ion-list-header>
     </ion-list>
 
 </ion-content>

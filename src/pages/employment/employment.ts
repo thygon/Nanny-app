@@ -35,7 +35,7 @@ export class EmploymentPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EmploymentPage');
-    this.getEmp();
+    this.checkIfMama();
   }
 
   presentToast(data) {
@@ -46,17 +46,40 @@ export class EmploymentPage {
     toast.present();
   }
 
-  getEmp(){
+  getEmp(role){
     this.app.get('employment').then(
       res =>{
         this.response = res;
         this.emp = this.response.data;
-        this.employer = this.emp.mama;
-        this.employee = this.emp.nani;
+        if (role == 'mama' && this.emp != null){
+          this.employer = null;
+          this.employee = this.emp.nani;
+        } else if (role == 'mama' && this.emp != null){
+          this.employer = this.emp.mama;
+          this.employee = null;
+        }else{
+          this.employer = null;
+          this.employee = null;
+        }
+        
         console.log(this.emp);
       }
     );
   }
+
+  checkIfMama() {
+    this.auth.getSession().then(res => {
+      this.response = res;
+      let role = this.response.user.role;
+
+      role.forEach(val => {
+        role = val.role;
+      });
+      this.getEmp(role);
+      
+    });
+  }
+
 
 
   logout() {
