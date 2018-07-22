@@ -9,7 +9,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AccountPage } from '../pages/account/account';
 import { MessagePage } from '../pages/message/message';
 import { NotificationPage } from '../pages/notification/notification';
-
+import { EmploymentPage } from '../pages/employment/employment';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -26,6 +26,10 @@ export class MyApp {
   // make HelloIonicPage the root (or first) page
   rootPage:any;
   pages: Array<{title: string, component: any}>;
+  user: any ={'name':'Username','email':'example@gmail.com','profile':{
+    'dpic':'../assets/imgs/menubg.jpg'
+  }};
+  response: any = [];
 
   constructor(
     public platform: Platform,
@@ -39,7 +43,8 @@ export class MyApp {
     
           
     this.initializeApp();
-
+    this.onlineUser();
+    
     
     //set homepage
     this.storage.get('apitoken').then(token => {
@@ -50,13 +55,14 @@ export class MyApp {
       } else if (token && this.authService.tokenExpiry(token) == false) {
         
         this.rootPage = HomePage;
-
+        
       }else{
 
         this.rootPage = LoginPage;
       }
       
     });
+    
 
     // set our app's pages
     this.pages = [
@@ -65,8 +71,11 @@ export class MyApp {
       { title: 'Notifications', component: NotificationPage },
       { title: 'Requests', component: RequestsPage },
       { title: 'Profile', component: ProfilePage },
+      { title: 'Employment', component: EmploymentPage },
       { title: 'Account', component: AccountPage },
     ];
+
+  
   }
 
   initializeApp() {
@@ -83,6 +92,15 @@ export class MyApp {
     this.menu.close();
     // navigate to the new page if it is not the current page
     this.nav.setRoot(page.component);
+  }
+
+  onlineUser(){
+    this.authService.getSession().then(
+      res =>{
+        this.response = res;
+        this.user = this.response.user;
+      }
+    );
   }
 
 }

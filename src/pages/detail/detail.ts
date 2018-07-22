@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ToastController ,AlertController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { AuthProvider } from '../../providers/auth/auth';
@@ -28,11 +28,14 @@ export class DetailPage {
   public profile: any =[]; 
   public rate: any = []; 
 
+  private prompt:any;
+
   constructor(public navCtrl: NavController, 
     public navParams: NavParams, public auth: AuthProvider,
     public app: AppProvider,
     public toastCtrl: ToastController,
-    public store: Storage,) {
+    public store: Storage,
+    public alertCtrl:AlertController) {
 
     this.nani_id = this.navParams.get('nani_id');
     this.payed = this.navParams.get('payed');
@@ -67,15 +70,55 @@ export class DetailPage {
     this.app.patch(id,{},'mama/employ/').then(res =>{
     console.log(res);
     this.response = res;
-    this.presentToast(this.response.data.message);
+    this.presentToast(this.response.message);
     });
   }
 
   message(id){
     console.log('Message');
+    this.showPrompt(id);
   }
-  
-  
+
+
+  showPrompt(id) {
+    this.prompt = this.alertCtrl.create({
+      title: 'Compose Message',
+      message: "body",
+      inputs: [
+        {
+          name: 'message',
+          placeholder: 'Message Content...'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+            this.cancel();
+          }
+        },
+        {
+          text: 'Send',
+          handler: data => {
+            console.log('sending...');
+
+            this.app.patch(id, data ,'msg/send/').then(
+              res =>{
+                this.response = res;
+                this.presentToast(this.response.msg);
+              }
+            );
+          }
+        }
+      ]
+    });
+    this.prompt.present();
+  }
+
+  cancel(){
+   this.prompt.dismiss();
+  }
 
   logout() {
     this.auth.signOut().then(res => {

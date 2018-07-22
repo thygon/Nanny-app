@@ -7,6 +7,7 @@ import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
 import { RequestsPage } from '../requests/requests';
+import { MessagePage } from '../message/message';
 
 /**
  * Generated class for the NotificationPage page.
@@ -65,6 +66,10 @@ export class NotificationPage {
     var page;
     if (who == 'Requests'){
       page = RequestsPage;
+    }
+
+    if (who == 'Messages') {
+      page = MessagePage;
     }
     
     this.navCtrl.push(page, {'id': req_id});

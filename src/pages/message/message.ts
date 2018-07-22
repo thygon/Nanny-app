@@ -6,6 +6,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
+import { TextPage } from '../text/text';
 
 /**
  * Generated class for the MessagePage page.
@@ -22,6 +23,8 @@ import { LoginPage } from '../login/login';
 export class MessagePage {
 
   private response: any = [];
+  private messages: any = [];
+  private user: any =[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   public toastCtrl:ToastController,public auth:AuthProvider, public app:AppProvider,
@@ -30,6 +33,7 @@ export class MessagePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MessagePage');
+    this.getMessages();
   }
   presentToast(data) {
     const toast = this.toastCtrl.create({
@@ -39,7 +43,26 @@ export class MessagePage {
     toast.present();
   }
 
+  getMessages(){
+    this.app.get('msg/all').then(
+      res =>{
+        this.response = res;
+        this.messages = this.response.data;
+        this.user = this.response.user;
+        console.log(this.user);
+        console.log(this.messages);
+      }
+    );
+  }
 
+  openTexts(id,sender){
+    this.navCtrl.push(TextPage,{'message_id':id,'sender':sender});
+    this.app.patch(id,{}, 'msg/read/').then(res =>{
+      console.log(res);
+    });
+  }
+
+  
 
   logout() {
     this.auth.signOut().then(res => {

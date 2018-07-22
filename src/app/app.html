@@ -1,9 +1,15 @@
 <ion-menu [content]="content">
 
     <ion-header>
-        <ion-toolbar color="primary">
-            <ion-title>Menu</ion-title>
-        </ion-toolbar>
+        <div class="menu-toolbar">
+            <div class="overlay">
+                <div class="parent">
+                    <img class="menu-dpic" src="{{user.profile.dpic}}" alt="">
+                    <h2 text-center>{{user.name}}</h2>
+                    <p>{{user.email}}</p>
+                </div>
+            </div>
+        </div>
     </ion-header>
 
     <ion-content>

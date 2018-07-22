@@ -23,5 +23,17 @@
 
 
 <ion-content padding>
-    <p style=" margin:auto;" text-center>No messages</p>
+
+    <p *ngIf="messages.length == 0 " text-center>No messages</p>
+
+    <ion-list *ngIf="messages.length !== 0 ">
+        <ion-item class="msg" *ngFor="let msg of messages" (click)="openTexts(msg.id,(user.id == msg.sender)? msg.user_receiver.name : msg.user_sender.name)">
+            <ion-avatar item-start>
+                <img src="{{msg.profile}}">
+            </ion-avatar>
+            <h2>{{(user.id == msg.sender)? msg.user_receiver.name : msg.user_sender.name}}</h2>
+            <p>{{msg.latest.content}}</p>
+            <ion-badge item-end>{{(msg.count == 0)?'':msg.count}}</ion-badge>
+        </ion-item>
+    </ion-list>
 </ion-content>

@@ -120,7 +120,7 @@ export class RequestsPage {
   }
 
   rejectRequest(id){
-    this.app.patch(id, '', 'nani/confirm/').then(res => {
+    this.app.patch(id, '', 'nani/reject/').then(res => {
       this.response = res;
       
       if (this.isMama == true) {

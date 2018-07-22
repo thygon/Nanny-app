@@ -8,15 +8,19 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 
-import { LoginPage } from '../pages/login/login';
-import { HomePage } from '../pages/home/home';
-import { RegisterPage } from '../pages/register/register';
-import { RequestsPage } from '../pages/requests/requests';
-import { ProfilePage }  from '../pages/profile/profile';
-import { AccountPage } from '../pages/account/account';
-import { DetailPage } from '../pages/detail/detail';
-import { MessagePage } from '../pages/message/message';
-import { NotificationPage } from '../pages/notification/notification';
+
+
+import { AccountPageModule  } from '../pages/account/account.module';
+import { DetailPageModule } from '../pages/detail/detail.module';
+import { HomePageModule } from '../pages/home/home.module';
+import { LoginPageModule } from '../pages/login/login.module';
+import { MessagePageModule } from '../pages/message/message.module';
+import { NotificationPageModule } from '../pages/notification/notification.module';
+import { ProfilePageModule } from '../pages/profile/profile.module';
+import { RegisterPageModule } from '../pages/register/register.module';
+import { RequestsPageModule } from '../pages/requests/requests.module';
+import { TextPageModule } from '../pages/text/text.module';
+import { EmploymentPageModule } from '../pages/employment/employment.module';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -37,16 +41,7 @@ export function jwtOptionsFactory(storage: Storage) {
 
 @NgModule({
   declarations: [
-    MyApp,
-    LoginPage,
-    HomePage,
-    RegisterPage,
-    RequestsPage,
-    ProfilePage,
-    AccountPage,
-    DetailPage,
-    MessagePage,
-    NotificationPage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -59,20 +54,22 @@ export function jwtOptionsFactory(storage: Storage) {
         useFactory: jwtOptionsFactory,
         deps: [Storage]
       }
-    })
+    }),
+    AccountPageModule,
+    DetailPageModule,
+    HomePageModule,
+    LoginPageModule,
+    MessagePageModule,
+    NotificationPageModule,
+    ProfilePageModule,
+    RegisterPageModule,
+    RequestsPageModule,
+    TextPageModule,
+    EmploymentPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    LoginPage,
-    HomePage,
-    RegisterPage,
-    RequestsPage,
-    ProfilePage,
-    AccountPage,
-    DetailPage,
-    MessagePage,
-    NotificationPage
+    MyApp
   ],
   providers: [
     StatusBar,

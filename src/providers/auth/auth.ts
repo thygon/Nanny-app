@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Storage } from '@ionic/storage';
@@ -17,7 +17,8 @@ export class AuthProvider {
   //private apiUrl = 'http://192.168.137.1:8000/api/';
   private apiUrl = "http://127.0.0.1:8000/api/";
 
-  constructor(public http: HttpClient, private jwtHelper : JwtHelperService, public storage :Storage) {
+  constructor(public http: HttpClient,
+     private jwtHelper : JwtHelperService, public storage :Storage) {
     console.log('Hello AuthProvider Provider');
   }
 
@@ -25,7 +26,13 @@ export class AuthProvider {
   signIn(credentials,url){
 
     return new Promise(resolve =>{
-      this.http.post(this.apiUrl + url +'/login' , credentials)
+
+      let headers = new HttpHeaders({
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type':'application/json'
+        });
+
+      this.http.post(this.apiUrl + url +'/login' , credentials,{headers:headers})
       .subscribe(data =>{
             resolve(data);
       }, error =>{
