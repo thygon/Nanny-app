@@ -26,7 +26,7 @@ export class LoginPage {
 
   private email: string;
   private password: string;
-  private remember;
+  private remember: boolean = true;
   private loader;
   res:any = [];
 
@@ -86,6 +86,11 @@ export class LoginPage {
 
   register(){
     this.navCtrl.push(RegisterPage);
+  }
+
+  forgotPassword(){
+    event.preventDefault();
+    console.log('hello');
   }
 
 }

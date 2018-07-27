@@ -62,15 +62,14 @@
             <ion-toolbar>
                 <ion-buttons>
                     <button *ngIf="request.confirmed == 1" ion-button>Confirmed</button>
+                    <button *ngIf="request.confirmed == 2" ion-button>Rejected</button>
                     <button *ngIf="request.confirmed == 0 " (click)="confirmRequest(request.id)" ion-button icon-only color="primary">
                         Confirm Request
                     </button>
-                    <button (click)="rejectRequest(request.id)" ion-button color="primary">
+                    <button *ngIf="request.confirmed == 0 && request.confirmed == 1 " (click)="rejectRequest(request.id)" ion-button color="primary">
                         Reject Request
                     </button>
-                    <button (click)="detailRequest(request.id)" ion-button color="primary" round>
-                        Details
-                    </button>
+
                 </ion-buttons>
             </ion-toolbar>
         </ion-card>

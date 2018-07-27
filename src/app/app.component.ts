@@ -43,25 +43,6 @@ export class MyApp {
     
           
     this.initializeApp();
-    this.onlineUser();
-    
-    
-    //set homepage
-    this.storage.get('apitoken').then(token => {
-      if (!token || this.authService.tokenExpiry(token) == true){
-
-        this.rootPage = LoginPage;
-
-      } else if (token && this.authService.tokenExpiry(token) == false) {
-        
-        this.rootPage = HomePage;
-        
-      }else{
-
-        this.rootPage = LoginPage;
-      }
-      
-    });
     
 
     // set our app's pages
@@ -84,7 +65,26 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      //set homepage
+      this.storage.get('apitoken').then(token => {
+        if (!token || this.authService.tokenExpiry(token) == true) {
+
+          this.rootPage = LoginPage;
+
+        } else if (token && this.authService.tokenExpiry(token) == false) {
+
+          this.rootPage = HomePage;
+
+        } else {
+
+          this.rootPage = LoginPage;
+        }
+
+      });
     });
+
+    this.onlineUser();
   }
 
   openPage(page) {

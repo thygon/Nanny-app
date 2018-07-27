@@ -51,10 +51,10 @@ export class EmploymentPage {
       res =>{
         this.response = res;
         this.emp = this.response.data;
-        if (role == 'mama' && this.emp != null){
+        if (role != null && role == 'mama' && this.emp != null){
           this.employer = null;
           this.employee = this.emp.nani;
-        } else if (role == 'nany' && this.emp != null){
+        } else if (role != null && role == 'nany' && this.emp != null){
           this.employer = this.emp.mama;
           this.employee = null;
         }else{

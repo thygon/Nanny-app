@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,LoadingController, ToastController} from 'ionic-angular';
-
+import { Storage } from '@ionic/storage';
 import{ AuthProvider } from '../../providers/auth/auth';
-import { LoginPage } from '../../pages/login/login';
+import { HomePage } from '../../pages/home/home';
 
 /**
  * Generated class for the RegisterPage page.
@@ -28,7 +28,7 @@ export class RegisterPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private authService: AuthProvider, public loadingCtrl: LoadingController, 
-    public toastCtrl: ToastController) {
+    public toastCtrl: ToastController,private store:Storage) {
   }
 
   ionViewDidLoad() {
@@ -64,7 +64,8 @@ export class RegisterPage {
              this.response = res;
              if (this.response.status == 'success' ){
                this.presentToast(this.response.message);
-               this.navCtrl.push(LoginPage);
+               this.store.set('apitoken',this.response.token);
+               this.navCtrl.setRoot(HomePage);
              }else{
                this.presentToast(this.response.message);
              }

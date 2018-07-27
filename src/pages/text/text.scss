@@ -1,5 +1,8 @@
 page-text {
     .send-text-btn {
         background: transparent;
+        ion-icon {
+            color: color($colors, primary);
+        }
     }
 }
