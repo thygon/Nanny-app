@@ -7,7 +7,8 @@ import { IonicStorageModule , Storage} from '@ionic/storage';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
-
+import { Geolocation } from '@ionic-native/geolocation';
+import {InterceptorModule} from './interceptor.module';
 
 
 import { AccountPageModule  } from '../pages/account/account.module';
@@ -21,22 +22,17 @@ import { RegisterPageModule } from '../pages/register/register.module';
 import { RequestsPageModule } from '../pages/requests/requests.module';
 import { TextPageModule } from '../pages/text/text.module';
 import { EmploymentPageModule } from '../pages/employment/employment.module';
-
+import { RatePageModule } from '../pages/rate/rate.module';
+import { ForgotpassPageModule } from '../pages/forgotpass/forgotpass.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { AuthProvider } from '../providers/auth/auth';
 import { AppProvider } from '../providers/app/app';
 
 
 
-export function jwtOptionsFactory(storage: Storage) {
-  return {
-    tokenGetter: () => {
-      return storage.get('apitoken');
-    },
-    whiteListedDomains:['localhost:8000']
-  }
+export function tokenGetter() {
+  return localStorage.getItem('apitoken');
 }
 
 @NgModule({
@@ -46,13 +42,13 @@ export function jwtOptionsFactory(storage: Storage) {
   imports: [
     BrowserModule,
     HttpClientModule,
+    InterceptorModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot(),
     JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: jwtOptionsFactory,
-        deps: [Storage]
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:8000','192.168.137.1:8000'],
       }
     }),
     AccountPageModule,
@@ -65,7 +61,9 @@ export function jwtOptionsFactory(storage: Storage) {
     RegisterPageModule,
     RequestsPageModule,
     TextPageModule,
-    EmploymentPageModule
+    EmploymentPageModule,
+    RatePageModule,
+    ForgotpassPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -74,8 +72,8 @@ export function jwtOptionsFactory(storage: Storage) {
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider,
     ImagePicker,
     Base64,
     AppProvider

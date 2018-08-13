@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angul
 import { Storage } from '@ionic/storage';
 
 import { AppProvider } from '../../providers/app/app';
-import { AuthProvider } from '../../providers/auth/auth';
 
 import { LoginPage } from '../login/login';
 
@@ -26,8 +25,7 @@ export class TextPage {
   private response: any = [];
   public mytext: string = '';
   public sender:string;
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    public auth: AuthProvider, public app: AppProvider,
+  constructor(public navCtrl: NavController, public navParams: NavParams, public app: AppProvider,
     public store: Storage, public toast:ToastController) {
   }
 
@@ -47,28 +45,32 @@ export class TextPage {
 
   getTexts(){
     let id = this.message_id;
-    this.app.getWithId(id, 'msg/texts').then(res =>{
+    this.app.get('msg/texts',id).subscribe(res =>{
       this.response = res;
       this.texts = this.response.data;
+    }, (error) =>{
+      console.log(error);
     });
   }
 
   sendText(){
     let id = this.message_id;
     if (this.mytext != ''){
-    this.app.patch(id, { 'message': this.mytext }, 'msg/send/text/').then(res =>{
+      this.app.postid('msg/send/text/',{ 'message': this.mytext },id).subscribe(res =>{
       this.response = res;
       this.mytext = '';
       this.presentToast(this.response.msg);
       this.getTexts();
-    }); 
+      }, (error) => {
+        console.log(error);
+      });
   }else{
       this.presentToast('Enter message!');
     }
   }
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 
@@ -78,6 +80,8 @@ export class TextPage {
         this.store.remove('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
+    }, (error) => {
+      console.log(error);
     });
   }
 

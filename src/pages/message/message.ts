@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -27,7 +26,7 @@ export class MessagePage {
   private user: any =[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-  public toastCtrl:ToastController,public auth:AuthProvider, public app:AppProvider,
+  public toastCtrl:ToastController, public app:AppProvider,
   public store:Storage) {
   }
 
@@ -44,7 +43,7 @@ export class MessagePage {
   }
 
   getMessages(){
-    this.app.get('msg/all').then(
+    this.app.get('msg/all').subscribe(
       res =>{
         this.response = res;
         this.messages = this.response.data;
@@ -57,7 +56,7 @@ export class MessagePage {
 
   openTexts(id,sender){
     this.navCtrl.push(TextPage,{'message_id':id,'sender':sender});
-    this.app.patch(id,{}, 'msg/read/').then(res =>{
+    this.app.postid('msg/read',{},id).subscribe(res =>{
       console.log(res);
     });
   }
@@ -65,7 +64,7 @@ export class MessagePage {
   
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 

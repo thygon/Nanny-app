@@ -34,8 +34,8 @@
             <p>{{employer.email}}</p>
         </ion-item>
         <ion-buttons end padding>
-            <button ion-button>Rate</button>
-            <button ion-button>Quit</button>
+            <button ion-button (click)="rateEmployer()">Rate</button>
+            <button ion-button (click)="quit()">Quit</button>
         </ion-buttons>
 
         <ion-list-header>
@@ -56,8 +56,8 @@
             <p>{{employee.email}}</p>
         </ion-item>
         <ion-buttons end padding>
-            <button ion-button>Rate</button>
-            <button ion-button>Fire</button>
+            <button ion-button (click)="rateEmployee()">Rate</button>
+            <button ion-button (click)="fire()">Fire</button>
         </ion-buttons>
         <ion-list-header>
             History of Employee

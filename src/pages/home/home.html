@@ -12,6 +12,10 @@
         </button>
         <ion-title>Home</ion-title>
         <ion-buttons end>
+            <button *ngIf="notifycount > 0" ion-button icon-only (click)="notify()">
+              <ion-icon name="notifications-outline"></ion-icon>
+              <ion-badge item-end>{{(notifycount== 0)?'':notifycount}}</ion-badge>
+            </button>
             <button ion-button (click)="logout()">
               Logout
             </button>
@@ -22,6 +26,7 @@
 
 
 <ion-content>
+
     <ion-list *ngIf="isMama" no-lines>
         <ion-item *ngFor="let nani of nanis">
             <ion-card>
@@ -32,10 +37,14 @@
                                 <img [src]="nani.pic" alt="profile image">
                             </ion-avatar>
                         </ion-col>
-                        <ion-col>
-                            <p>
-                                {{(!nani.rate == null)?'Ratings':'Not Rated'}}
+                        <ion-col *ngIf="nani.rate.length != 0">
+                            <p *ngFor="let rate of nani.rate">
+
+                                <rating [rate]="rate"></rating>
                             </p>
+                        </ion-col>
+                        <ion-col *ngIf="nani.rate.length == 0">
+                            <ion-icon name="star-outline" color="primary" *ngFor="let item of [1,2,3,4,5]"></ion-icon>
                         </ion-col>
                     </ion-row>
                     <ion-card-title color="primary">{{nani.name}}</ion-card-title>
@@ -70,10 +79,13 @@
                                 <img [src]="employer.pic" alt="profile image">
                             </ion-avatar>
                         </ion-col>
-                        <ion-col>
-                            <p>
-                                {{(!employer.rate == null)?'Ratings':'Not Rated'}}
+                        <ion-col *ngIf="employer.rate.length != 0">
+                            <p *ngFor="let rate of employer.rate">
+                                <rating [rate]="rate"></rating>
                             </p>
+                        </ion-col>
+                        <ion-col *ngIf="employer.rate.length == 0">
+                            <ion-icon name="star-outline" color="primary" *ngFor="let item of [1,2,3,4,5]"></ion-icon>
                         </ion-col>
                     </ion-row>
                     <ion-card-title color="primary">{{employer.name}}</ion-card-title>
@@ -88,7 +100,7 @@
     </ion-list>
 
     <ion-fab right bottom>
-        <button ion-fab mini><ion-icon name="sad"></ion-icon></button>
+        <button ion-fab mini (click)="distress()"><ion-icon name="sad"></ion-icon></button>
     </ion-fab>
 
 </ion-content>

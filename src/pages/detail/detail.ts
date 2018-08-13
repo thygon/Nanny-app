@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController ,AlertController} from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 
-import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -26,15 +24,14 @@ export class DetailPage {
   private nani_id:number;
   public payed: boolean = false;
   public profile: any =[]; 
-  public rate: any = []; 
+  public rate: any; 
 
   private prompt:any;
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams, public auth: AuthProvider,
+    public navParams: NavParams,
     public app: AppProvider,
     public toastCtrl: ToastController,
-    public store: Storage,
     public alertCtrl:AlertController) {
 
     this.nani_id = this.navParams.get('nani_id');
@@ -57,20 +54,22 @@ export class DetailPage {
   }
 
   getDetails(id){
-    this.app.getWithId(id, 'mama/nani').then(res =>{
+    this.app.get('mama/nani',id).subscribe(res =>{
       this.response = res;
       this.nani = this.response.data; 
       this.profile = this.response.data.profile;
-      this.rate = this.response.data.rate;
+      this.rate = this.response.data.rate.stars;
       console.log(this.nani);
     });
   }
 
   employ(id){
-    this.app.patch(id,{},'mama/employ/').then(res =>{
+    this.app.postid('mama/employ',{},id).subscribe(res =>{
     console.log(res);
     this.response = res;
     this.presentToast(this.response.message);
+    }, (e) =>{
+      console.log(e);
     });
   }
 
@@ -93,17 +92,17 @@ export class DetailPage {
       buttons: [
         {
           text: 'Cancel',
+          role:'cancel',
           handler: data => {
             console.log('Cancel clicked');
-            this.cancel();
+            
           }
         },
         {
           text: 'Send',
           handler: data => {
             console.log('sending...');
-
-            this.app.patch(id, data ,'msg/send/').then(
+            this.app.postid('msg/send/',data,id).subscribe(
               res =>{
                 this.response = res;
                 this.presentToast(this.response.msg);
@@ -121,16 +120,18 @@ export class DetailPage {
   }
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 
       if (this.response.status == "success") {
         this.presentToast('LoggedOut successfully');
 
-        this.store.remove('apitoken');
+        this.app.deleteFromStore('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
+    }, (e) =>{
+      console.log(e);
     });
   }
 

@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { ChatBubbleComponent } from './chat-bubble/chat-bubble';
+import { RatingComponent } from './rating/rating';
 @NgModule({
-	declarations: [ChatBubbleComponent],
+	declarations: [ChatBubbleComponent,
+    RatingComponent],
 	imports: [],
-	exports: [ChatBubbleComponent]
+	exports: [ChatBubbleComponent,
+    RatingComponent]
 })
 export class ComponentsModule {}

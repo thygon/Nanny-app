@@ -4,7 +4,7 @@ import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 import { Storage } from '@ionic/storage';
 
-import { AuthProvider } from '../../providers/auth/auth';
+import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
 
@@ -30,7 +30,7 @@ export class ProfilePage {
   };
   constructor(public navCtrl: NavController,
      public navParams: NavParams,
-     private authService: AuthProvider,
+     private app: AppProvider,
      private imagePicker: ImagePicker,
      private base64: Base64, 
      public toastCtrl: ToastController,
@@ -71,7 +71,7 @@ export class ProfilePage {
   }
 
   getProfile(){
-    this.authService.doGet('profile').then(res =>{
+    this.app.get('profile').subscribe(res =>{
       this.response = res;
       this.profile = this.response.data;
       console.log(this.profile);
@@ -85,8 +85,8 @@ export class ProfilePage {
   }
 
   updateProfile(){
-  this.authService.doPost(this.profile,'update/profile')
-    .then(res =>{
+  this.app.post('update/profile',this.profile)
+    .subscribe(res =>{
       this.response = res; 
       this.presentToast(this.response.message);
      console.log(res);
@@ -98,7 +98,7 @@ export class ProfilePage {
 
 
   logout() {
-    this.authService.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 

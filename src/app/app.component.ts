@@ -1,6 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, MenuController, Nav } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { Platform, MenuController, Nav,Events } from 'ionic-angular';
 
 import { LoginPage } from '../pages/login/login';
 import { HomePage } from '../pages/home/home';
@@ -15,7 +14,7 @@ import { EmploymentPage } from '../pages/employment/employment';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { AuthProvider } from '../providers/auth/auth';
+import { AppProvider } from '../providers/app/app';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,9 +25,9 @@ export class MyApp {
   // make HelloIonicPage the root (or first) page
   rootPage:any;
   pages: Array<{title: string, component: any}>;
-  user: any ={'name':'Username','email':'example@gmail.com','profile':{
-    'dpic':'../assets/imgs/menubg.jpg'
-  }};
+  user: any ={'name':'Username','email':'example@gmail.com',
+    'pic':'../assets/imgs/menubg.jpg'
+  };
   response: any = [];
 
   constructor(
@@ -36,13 +35,25 @@ export class MyApp {
     public menu: MenuController,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public authService: AuthProvider,
-    public storage: Storage
+    public app:AppProvider,
+    public event:Events
 
   ) {
     
           
     this.initializeApp();
+    
+    this.event.subscribe('user-logged', (data) =>{
+      this.user = data;
+      console.log(this.user);
+    });
+    this.event.subscribe('reload', (data) => {
+      this.user = data;
+      console.log(this.user);
+    });
+
+    this.app.myheaders();
+    this.setHome();
     
 
     // set our app's pages
@@ -55,7 +66,6 @@ export class MyApp {
       { title: 'Employment', component: EmploymentPage },
       { title: 'Account', component: AccountPage },
     ];
-
   
   }
 
@@ -66,25 +76,10 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
-      //set homepage
-      this.storage.get('apitoken').then(token => {
-        if (!token || this.authService.tokenExpiry(token) == true) {
-
-          this.rootPage = LoginPage;
-
-        } else if (token && this.authService.tokenExpiry(token) == false) {
-
-          this.rootPage = HomePage;
-
-        } else {
-
-          this.rootPage = LoginPage;
-        }
-
-      });
+      
     });
 
-    this.onlineUser();
+   
   }
 
   openPage(page) {
@@ -94,13 +89,24 @@ export class MyApp {
     this.nav.setRoot(page.component);
   }
 
-  onlineUser(){
-    this.authService.getSession().then(
-      res =>{
-        this.response = res;
-        this.user = this.response.user;
+  setHome(){
+    //set homepage
+    let token = this.app.geFromStore('apitoken');
+    
+      if (!token || this.app.checkExpiry(token) == true) {
+
+        this.rootPage = LoginPage;
+
+      } else if (token && this.app.checkExpiry(token) == false) {
+
+        this.rootPage = HomePage;
+
+      } else {
+
+        this.rootPage = LoginPage;
       }
-    );
   }
+
+  
 
 }

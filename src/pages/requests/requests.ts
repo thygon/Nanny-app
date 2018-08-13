@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams,ToastController, AlertController } 
 import { Storage } from '@ionic/storage';
 
 import { AppProvider } from '../../providers/app/app';
-import { AuthProvider } from '../../providers/auth/auth';
 
 import{ LoginPage } from '../login/login';
 import { DetailPage } from '../detail/detail';
@@ -29,7 +28,6 @@ export class RequestsPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               private app : AppProvider,
-              private auth: AuthProvider,
               private toastCtrl: ToastController,
               private alert : AlertController,
               private store : Storage) {
@@ -52,7 +50,7 @@ export class RequestsPage {
 
   //if mama
   checkIfMama() {
-    this.auth.getSession().then(res => {
+    this.app.get('user/user').subscribe(res => {
       this.response = res;
       let role = this.response.user.role;
 
@@ -75,19 +73,23 @@ export class RequestsPage {
         this.getRequests('nani/requests');
       }
 
+    }, (error) => {
+      console.log(error)
     });
   }
 
   getRequests(url){
-    this.app.get(url).then(res =>{
+    this.app.get(url).subscribe(res =>{
       this.response = res;
       this.myRequests = this.response.data;
       console.log(this.myRequests);
+    }, (error) => {
+      console.log(error)
     });
   }
 
   abortRequest(id){
-    this.app.patch(id, '', 'mama/abort/').then(res => {
+    this.app.postid('mama/abort',{ },id ).subscribe(res => {
       this.response = res;
       if (this.isMama == true) {
 
@@ -98,12 +100,14 @@ export class RequestsPage {
         this.getRequests('nani/requests');
       }
       this.presentToast(this.response.message);
+    }, (error) => {
+      console.log(error)
     });
   }
 
   //nanis
   confirmRequest(id){
-    this.app.patch(id,'','nani/confirm/').then(res =>{
+    this.app.postid('nani/confirm','',id).subscribe(res =>{
       this.response = res;
 
       if (this.isMama == true) {
@@ -116,11 +120,13 @@ export class RequestsPage {
       }
 
       this.presentToast(this.response.message);
+    }, (error) => {
+      console.log(error)
     });
   }
 
   rejectRequest(id){
-    this.app.patch(id, '', 'nani/reject/').then(res => {
+    this.app.postid('nani/reject','',id).subscribe(res => {
       this.response = res;
       
       if (this.isMama == true) {
@@ -133,6 +139,8 @@ export class RequestsPage {
       }
 
       this.presentToast(this.response.message);
+    }, (error) => {
+      console.log(error)
     });
   }
 
@@ -140,7 +148,7 @@ export class RequestsPage {
 
     if(this.isMama){
       //is mama check acc bal.
-      this.app.patch(id, '', 'mama/details/').then(res => {
+      this.app.postid( 'mama/details','',id).subscribe(res => {
         this.response = res;
         
         if (this.response.status == 'success'){
@@ -152,6 +160,8 @@ export class RequestsPage {
           this.presentToast(this.response.message);
         }
         
+      }, (error) => {
+        console.log(error)
       });
 
     }else{
@@ -182,7 +192,7 @@ export class RequestsPage {
           text: 'Save',
           handler: data => {
             console.log('Saved clicked'+ JSON.stringify(data));
-            this.app.post(JSON.stringify(data), 'mama/pay').then(res =>{
+            this.app.post(JSON.stringify(data), 'mama/pay').subscribe(res =>{
               this.response = res;
               this.presentToast(this.response.message);
 
@@ -196,7 +206,7 @@ export class RequestsPage {
   }
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 
@@ -205,6 +215,8 @@ export class RequestsPage {
         this.store.remove('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
+    }, (error) => {
+      console.log(error)
     });
   }
 

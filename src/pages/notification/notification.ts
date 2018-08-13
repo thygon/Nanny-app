@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
-import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
 import { RequestsPage } from '../requests/requests';
 import { MessagePage } from '../message/message';
+import { EmploymentPage } from '../employment/employment';
 
 /**
  * Generated class for the NotificationPage page.
@@ -31,7 +31,6 @@ export class NotificationPage {
   constructor(public navCtrl: NavController, 
           public navParams: NavParams, 
           private app: AppProvider,
-          public auth: AuthProvider,
           public store: Storage,
           public toastCtrl:ToastController
         ) {
@@ -52,7 +51,7 @@ export class NotificationPage {
 
 
   getNotifications(){
-    this.app.get('all/notifications').then(res =>{
+    this.app.get('all/notifications').subscribe(res =>{
       this.response = res;
       this.notifications = this.response.data;
       console.log(this.response.data);
@@ -60,7 +59,7 @@ export class NotificationPage {
   }
 
   openRequest(noti_id,req_id,who){
-    this.app.patch(noti_id, {},'notification/read/').then(res =>{
+    this.app.postid('notification/read', {},noti_id).subscribe(res =>{
         console.log(res);
     });
     var page;
@@ -71,6 +70,10 @@ export class NotificationPage {
     if (who == 'Messages') {
       page = MessagePage;
     }
+
+    if (who == 'Employment') {
+      page = EmploymentPage;
+    }
     
     this.navCtrl.push(page, {'id': req_id});
 
@@ -78,7 +81,7 @@ export class NotificationPage {
 
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 

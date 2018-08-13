@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,LoadingController, ToastController} from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import{ AuthProvider } from '../../providers/auth/auth';
+import{ AppProvider } from '../../providers/app/app';
 import { HomePage } from '../../pages/home/home';
 
 /**
@@ -27,7 +27,7 @@ export class RegisterPage {
   private response:any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private authService: AuthProvider, public loadingCtrl: LoadingController, 
+    private app: AppProvider, public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController,private store:Storage) {
   }
 
@@ -58,7 +58,7 @@ export class RegisterPage {
     if (this.formData.confirmpassword == this.formData.password ){
       this.presentLoading('Please wait');
       
-      this.authService.signUp(this.formData).then(res =>{
+      this.app.signup(this.formData).subscribe(res =>{
         this.loader.dismiss();
              console.log(res);
              this.response = res;
@@ -69,6 +69,8 @@ export class RegisterPage {
              }else{
                this.presentToast(this.response.message);
              }
+      }, (error) => {
+        console.log(error)
       });
     }else{
       this.presentToast('passwords dont match');
@@ -77,10 +79,12 @@ export class RegisterPage {
   }
 
   getRoles(){
-    this.authService.getReq('role').then(res =>{
+    this.app.get('role').subscribe(res =>{
       this.response = res;
       this.roles = this.response.data;
       console.log(this.roles);
+    }, (error) => {
+      console.log(error)
     });
   }
 

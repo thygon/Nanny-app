@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,LoadingController,
-  ToastController
- } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+  ToastController,Events} from 'ionic-angular';
 
-import { AuthProvider } from '../../providers/auth/auth';
+import { AppProvider } from '../../providers/app/app';
 
 import { HomePage } from '../../pages/home/home';
 import { RegisterPage } from '../../pages/register/register';
+import { ForgotpassPage } from '../../pages/forgotpass/forgotpass';
 
 /**
  * Generated class for the LoginPage page.
@@ -27,12 +26,12 @@ export class LoginPage {
   private email: string;
   private password: string;
   private remember: boolean = true;
-  private loader;
+  private loader:any;
   res:any = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private authService: AuthProvider, public store: Storage,
-    public loadingCtrl: LoadingController, public toastCtrl: ToastController) {
+    private app: AppProvider,public loadingCtrl: LoadingController, public toastCtrl: ToastController,
+    public event:Events) {
     
     
   }
@@ -55,25 +54,24 @@ export class LoginPage {
   
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
+    
   }
 
   login():void{
     this.presentLoading("Please wait");
-    this.authService.signIn(
+    this.app.login(
       {'email':this.email,
-      'password':this.password,'remember': this.remember},'user')
-      .then(data =>{
-        this.loader.dismiss();
-        console.log(data);
+      'password':this.password,'remember': this.remember})
+      .subscribe(data =>{
         this.res = data;
         console.log(this.res);
-
+        this.loader.dismiss();
         if (this.res.response != "error" ){
            //store token
-            this.store.set('apitoken',this.res.result.token);
+            this.app.store('apitoken',this.res.result.token);
             this.presentToast(this.res.result.message);
-            
+
+            this.event.publish('user-logged',this.res.result.user);
             this.navCtrl.setRoot(HomePage);
            
         }else{
@@ -81,6 +79,8 @@ export class LoginPage {
         }
         
 
+      }, error =>{
+        console.log(error);
       });
   }
 
@@ -90,7 +90,7 @@ export class LoginPage {
 
   forgotPassword(){
     event.preventDefault();
-    console.log('hello');
+    this.navCtrl.push(ForgotpassPage);
   }
 
 }

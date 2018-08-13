@@ -32,7 +32,7 @@
                 <img src="{{msg.profile}}">
             </ion-avatar>
             <h2>{{(user.id == msg.sender)? msg.user_receiver.name : msg.user_sender.name}}</h2>
-            <p>{{msg.latest.content}}</p>
+            <p>{{(msg.latest != null)? msg.latest.content:'No texts'}}</p>
             <ion-badge item-end>{{(msg.count == 0)?'':msg.count}}</ion-badge>
         </ion-item>
     </ion-list>

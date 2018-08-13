@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
+import { RatePage } from '../rate/rate';
 
 /**
  * Generated class for the EmploymentPage page.
@@ -24,10 +24,10 @@ export class EmploymentPage {
   emp: any = [];
   employer: any = [];
   employee: any = [];
+  role:string;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
-              private auth:AuthProvider,
               private app:AppProvider,
               private store:Storage,
               private toast:ToastController) {
@@ -47,7 +47,7 @@ export class EmploymentPage {
   }
 
   getEmp(role){
-    this.app.get('employment').then(
+    this.app.get('employment').subscribe(
       res =>{
         this.response = res;
         this.emp = this.response.data;
@@ -68,22 +68,52 @@ export class EmploymentPage {
   }
 
   checkIfMama() {
-    this.auth.getSession().then(res => {
+    this.app.get('user/user').subscribe(res => {
       this.response = res;
       let role = this.response.user.role;
+      
 
       role.forEach(val => {
         role = val.role;
+        this.role = role;
       });
       this.getEmp(role);
       
     });
   }
 
+  rateEmployee(){
+    this.navCtrl.push(RatePage, {'role': this.role});
+  }
+
+  fire(){
+    this.app.post({}, 'mama/fire').subscribe(res =>{
+      this.response = res;
+      if (this.response.status == 'success'){
+        this.presentToast(this.response.message);
+        this.getEmp(this.role);
+      }
+    } );
+  }
+
+  rateEmployer(){
+    this.navCtrl.push(RatePage, { 'role': this.role });
+  }
+
+  quit(){
+    this.app.post({}, 'nani/quite').subscribe(res => {
+      this.response = res;
+      if (this.response.status == 'success') {
+        this.presentToast(this.response.message);
+        this.getEmp(this.role);
+      }
+    });
+  }
+
 
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 

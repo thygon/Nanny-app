@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
-
+import 'rxjs/add/operator/catch';
 /*
   Generated class for the AppProvider provider.
 
@@ -13,87 +14,79 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AppProvider {
 
-  //private API = "http://192.168.137.1:8000/api/";
-  private API = "http://127.0.0.1:8000/api/";
+  //private API_URL  = "http://192.168.137.1:8000/api/";
+  private API_URL = 'http://localhost:8000/api/';
+  private LOGIN_URL = this.API_URL + 'user/login';
+  private SIGNUP_URL = this.API_URL + 'user/register';
+  private LOGOUT_URL = this.API_URL + 'user/logout';
+
+  private httpOptions = {};
 
   constructor(public http: HttpClient,
-              public store: Storage
-  ) {
-    console.log('Hello AppProvider Provider');
-  }
- 
-  //get
-
-  get(url){
-    return this.store.get('apitoken').then(token =>{
-      return new Promise(resolve => {
-        this.http.get(this.API + url +'?token='+token)
-          .subscribe(res => {
-            resolve(res);
-          }, e => {
-            console.log(e);
-          });
-      });
-    });
-
-  }
-  getWithId(id,url) {
-    return this.store.get('apitoken').then(token => {
-      return new Promise(resolve => {
-        this.http.get(this.API + url +'/'+id+ '?token=' + token)
-          .subscribe(res => {
-            resolve(res);
-          }, e => {
-            console.log(e);
-          });
-      });
-    });
-
+              public storage: Storage, 
+              public jwtHelper:JwtHelperService) {
+                console.log('AppProvider loaded');
+            this.myheaders();
   }
 
-  post(data,url) {
-    return this.store.get('apitoken').then(token => {
-      return new Promise(resolve => {
-        this.http.post(this.API + url + '?token=' + token,data)
-          .subscribe(res => {
-            resolve(res);
-          }, e => {
-            console.log(e);
-          });
-      });
-    });
-
-  }
-//updates
-  patch(id,data,url) {
-    return this.store.get('apitoken').then(token => {
-      return new Promise(resolve => {
-        this.http.post(this.API + url+id+'?token=' + token ,data)
-          .subscribe(res => {
-            resolve(res);
-          }, e => {
-            console.log(e);
-          });
-      });
-    });
-
+  myheaders() {
+      this.httpOptions = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json'
+        })
+      }
   }
 
-  //delete
-  delete(id,url) {
-    return this.store.get('apitoken').then(token => {
-      return new Promise(resolve => {
-        this.http.delete(this.API + url + '?token=' + token + '?id=' + id)
-          .subscribe(res => {
-            resolve(res);
-          }, e => {
-            console.log(e);
-          });
-      });
-    });
-
+  checkExpiry(token) {
+    let expiry: boolean = true;
+    if (token) {
+      expiry = this.jwtHelper.isTokenExpired(token);
+    }
+    return expiry;
   }
 
+  deleteFromStore(key) {
+    return localStorage.removeItem(key);
+  }
 
+  geFromStore(key) {
+    return localStorage.getItem(key);
+  }
+
+  store(key, value) {
+    return localStorage.setItem(key,value);
+  }
+
+  get(url, id = null) {
+    if (id == null) {
+      return this.http.get(this.API_URL + url, this.httpOptions);
+    } else {
+      console.log(this.httpOptions);
+      return this.http.get(this.API_URL + url + '/' + id, this.httpOptions);
+    }
+  }
+
+  post(url, data) {
+    return this.http.post(this.API_URL + url, data, this.httpOptions);
+  }
+
+  postid(url, data, id) {
+    return this.http.post(this.API_URL + url + '/' + id, data, this.httpOptions);
+  }
+
+  delete(url, id) {
+    return this.http.delete(this.API_URL + url + '/' + id, this.httpOptions);
+  }
+  signup(data: any) {
+    return this.http.post(this.SIGNUP_URL, data, this.httpOptions);
+  }
+  login(credentials: any) {
+    return this.http.post(this.LOGIN_URL, credentials, this.httpOptions);
+  }
+
+  logout() {
+    return this.http.post(this.LOGOUT_URL, {}, this.httpOptions);
+  }
+  
 
 }

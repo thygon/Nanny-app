@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angular'; 
+import { IonicPage, NavController, NavParams ,ToastController, AlertController} from 'ionic-angular'; 
 import { Storage } from '@ionic/storage';
-import { AuthProvider } from '../../providers/auth/auth';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -25,11 +24,11 @@ export class AccountPage {
   private response: any = [];
 
   constructor(public navCtrl: NavController, 
-    public navParams: NavParams, 
-    private auth: AuthProvider,
+    public navParams: NavParams,
     private app: AppProvider,
     private store: Storage,
-    private toast: ToastController) {
+    private toast: ToastController,
+    private alert:AlertController) {
 
     this.getMyAcc();
   }
@@ -48,22 +47,55 @@ export class AccountPage {
 
 
   getMyAcc(){
-    this.app.get('mama/account/').then(res =>{
+    this.app.get('mama/account/').subscribe(res =>{
       this.response = res;
       this.acc = this.response.data;
       if (this.acc != null){
         this.history = this.acc.history;
       }
       console.log(this.history);
+    }, error =>{
+      console.log(error);
     });
   }
 
   makeDeposit(){
-    this.presentToast('Depositing service comming soon!');
+    const prompt = this.alert.create({
+      title: 'Payment',
+      message: 'Deposit via Mpesa',
+      inputs: [
+        {
+          name: 't_id',
+          placeholder: 'transaction id'
+        },
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.app.post(JSON.stringify(data), 'mama/pay').subscribe(res => {
+              this.response = res;
+              this.presentToast(this.response.message);
+              this.getMyAcc();
+            }, error =>{
+              console.log(error);
+            });
+
+          }
+        }
+      ]
+    });
+    prompt.present();
   }
 
   logout() {
-    this.auth.signOut().then(res => {
+    this.app.logout().subscribe(res => {
       console.log(res);
       this.response = res;
 
@@ -73,6 +105,8 @@ export class AccountPage {
         this.store.remove('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
+    }, error =>{
+      console.log(error);
     });
   }
 
