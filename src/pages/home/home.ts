@@ -37,7 +37,7 @@ export class HomePage {
               public event: Events,
              public geolocation:Geolocation) 
   {
-    
+    console.log(this.isMama);
     
   }
   

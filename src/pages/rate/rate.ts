@@ -20,12 +20,16 @@ export class RatePage {
    'respect':'','timely':'','more':''
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,private app: AppProvider,private toaster:ToastController) {
+  constructor(public navCtrl: NavController,
+     public navParams: NavParams,
+     private app: AppProvider,
+     private toaster:ToastController) {
 
     let role = this.navParams.get('role');
     if (role == 'mama'){
       this.isMama = true;
     }
+    console.log(this.isMama);
   }
 
   presentToast(data){

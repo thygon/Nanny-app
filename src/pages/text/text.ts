@@ -48,6 +48,7 @@ export class TextPage {
     this.app.get('msg/texts',id).subscribe(res =>{
       this.response = res;
       this.texts = this.response.data;
+      console.log(this.texts);
     }, (error) =>{
       console.log(error);
     });

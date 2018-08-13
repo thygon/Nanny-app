@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,ToastController,LoadingController } from 'ionic-angular';
 
 import { AppProvider } from '../../providers/app/app';
-import { LoginPage } from '../login/login';
-
 /**
  * Generated class for the ForgotpassPage page.
  *

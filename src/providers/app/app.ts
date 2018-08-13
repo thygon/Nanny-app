@@ -1,9 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Storage } from '@ionic/storage';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 /*
   Generated class for the AppProvider provider.
@@ -23,7 +20,6 @@ export class AppProvider {
   private httpOptions = {};
 
   constructor(public http: HttpClient,
-              public storage: Storage, 
               public jwtHelper:JwtHelperService) {
                 console.log('AppProvider loaded');
             this.myheaders();

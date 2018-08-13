@@ -3,8 +3,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
-import { IonicStorageModule , Storage} from '@ionic/storage';
-import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { JwtModule} from '@auth0/angular-jwt';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Base64 } from '@ionic-native/base64';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -44,7 +43,6 @@ export function tokenGetter() {
     HttpClientModule,
     InterceptorModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
