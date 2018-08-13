@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,LoadingController, ToastController} from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import{ AppProvider } from '../../providers/app/app';
 import { HomePage } from '../../pages/home/home';
 
@@ -28,7 +27,7 @@ export class RegisterPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private app: AppProvider, public loadingCtrl: LoadingController, 
-    public toastCtrl: ToastController,private store:Storage) {
+    public toastCtrl: ToastController) {
   }
 
   ionViewDidLoad() {
@@ -64,7 +63,7 @@ export class RegisterPage {
              this.response = res;
              if (this.response.status == 'success' ){
                this.presentToast(this.response.message);
-               this.store.set('apitoken',this.response.token);
+               this.app.store('apitoken',this.response.token);
                this.navCtrl.setRoot(HomePage);
              }else{
                this.presentToast(this.response.message);
