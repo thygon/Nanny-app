@@ -5,7 +5,7 @@ import { HttpEvent,
          HttpHandler,
          HttpRequest,
          HTTP_INTERCEPTORS} from '@angular/common/http';
-import {AppProvider } from '../providers/app/app';
+import { AppProvider } from '../providers/app/app';
 
 @Injectable()
 export class MyInterceptor implements HttpInterceptor{
