@@ -20,7 +20,7 @@ export class MyInterceptor implements HttpInterceptor{
         const dupReq = req.clone({
                 headers: req.headers.set('Authorization', 'Bearer '+this.token)
             });
-            return next.handle(dupReq);
+        return next.handle(dupReq);
     }
 
 };
