@@ -74,7 +74,6 @@ export class DetailPage {
   }
 
   message(id){
-    console.log('Message');
     this.showPrompt(id);
   }
 
@@ -94,7 +93,6 @@ export class DetailPage {
           text: 'Cancel',
           role:'cancel',
           handler: data => {
-            console.log('Cancel clicked');
             
           }
         },
@@ -102,7 +100,7 @@ export class DetailPage {
           text: 'Send',
           handler: data => {
             console.log('sending...');
-            this.app.postid('msg/send/',data,id).subscribe(
+            this.app.postid('msg/send',data,id).subscribe(
               res =>{
                 this.response = res;
                 this.presentToast(this.response.msg);

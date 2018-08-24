@@ -70,7 +70,7 @@ export class LoginPage {
             this.app.store('apitoken',this.res.result.token);
             this.presentToast(this.res.result.message);
 
-            this.event.publish('user-logged',this.res.result.user);
+            this.event.publish('user-logged',this.res.result.user,this.res.result.myrole);
             this.navCtrl.setRoot(HomePage);
            
         }else{

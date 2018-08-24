@@ -44,9 +44,9 @@ export class MyApp {
           
     this.initializeApp();
     
-    this.event.subscribe('user-logged', (data) =>{
+    this.event.subscribe('user-logged', (data,role) =>{
       this.user = data;
-      this.myrole = this.user.role;
+      this.myrole = role;
       console.log(this.user);
     });
     this.event.subscribe('reload', (data) => {
@@ -65,7 +65,7 @@ export class MyApp {
       { title: 'Requests', component: RequestsPage },
       { title: 'Profile', component: ProfilePage },
       { title: 'Employment', component: EmploymentPage },
-      { title: 'Payment', component: AccountPage },
+      { title: 'Make Payment', component: AccountPage },
     ];
   
   }

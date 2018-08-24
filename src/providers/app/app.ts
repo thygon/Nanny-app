@@ -11,8 +11,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class AppProvider {
 
-  private API_URL  = "http://192.168.137.1:8000/api/";
-  //private API_URL = 'http://localhost:8000/api/';
+  //private API_URL  = "http://192.168.137.1:8000/api/";
+  private API_URL = 'http://localhost:8000/api/';
   private LOGIN_URL = this.API_URL + 'user/login';
   private SIGNUP_URL = this.API_URL + 'user/signup';
   private LOGOUT_URL = this.API_URL + 'user/logout';
