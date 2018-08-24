@@ -24,7 +24,7 @@ export class DetailPage {
   private nani_id:number;
   public payed: boolean = false;
   public profile: any =[]; 
-  public rate: any; 
+  public rate: any = []; 
 
   private prompt:any;
 
@@ -58,7 +58,7 @@ export class DetailPage {
       this.response = res;
       this.nani = this.response.data; 
       this.profile = this.response.data.profile;
-      this.rate = this.response.data.rate.stars;
+      this.rate = this.response.data.rate;
       console.log(this.nani);
     });
   }

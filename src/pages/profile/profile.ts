@@ -23,7 +23,7 @@ export class ProfilePage {
   response: any =[];
   profile: any = {
     'id':'','dob':'','age':'','shortmsg':'','level':'','dpic':''
-    , 'goodconduct': '', 'postal': '', 'city': '', 'code': '',
+    , 'goodconduct': '', 'postal': '', 'city': '', 'code': '','amount':''
   };
   constructor(public navCtrl: NavController,
      public navParams: NavParams,

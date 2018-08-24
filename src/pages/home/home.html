@@ -49,6 +49,7 @@
                     </ion-row>
                     <ion-card-title color="primary">{{nani.name}}</ion-card-title>
                     <p text-wrap>{{nani.profile.shortmsg}}</p>
+                    <p>Expected Pay: {{(nani.profile.amount== 0)?'__':nani.profile.amount}}</p>
                 </ion-card-content>
                 <ion-toolbar>
 

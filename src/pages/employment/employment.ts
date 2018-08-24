@@ -21,6 +21,7 @@ export class EmploymentPage {
 
   response: any = [];
   emp: any = [];
+  unemp: any = {};
   employer: any = [];
   employee: any = [];
   role:string;
@@ -49,18 +50,21 @@ export class EmploymentPage {
       res =>{
         this.response = res;
         this.emp = this.response.data;
+        this.unemp = this.response.confirm;
+        
         if (role != null && role == 'mama' && this.emp != null){
           this.employer = null;
           this.employee = this.emp.nani;
         } else if (role != null && role == 'nany' && this.emp != null){
           this.employer = this.emp.mama;
           this.employee = null;
-        }else{
+        }
+        else{
           this.employer = null;
           this.employee = null;
         }
         
-        console.log(this.emp);
+        console.log(this.unemp);
       }
     );
   }
@@ -99,7 +103,7 @@ export class EmploymentPage {
   }
 
   quit(){
-    this.app.post('nani/quite',{}).subscribe(res => {
+    this.app.post('nani/quit',{}).subscribe(res => {
       this.response = res;
       if (this.response.status == 'success') {
         this.presentToast(this.response.message);
@@ -107,7 +111,31 @@ export class EmploymentPage {
       }
     });
   }
+ 
 
+  confirm(id){
+    this.app.postid('nani/confirm/employ',{},id).subscribe(
+      (res) =>{
+        this.response = res;
+        if (this.response.status == 'success') {
+          this.presentToast(this.response.message);
+          this.getEmp(this.role);
+        }
+      }
+    );
+  }
+
+  reject(id){
+    this.app.postid('nani/reject/employ', {}, id).subscribe(
+      (res) => {
+        this.response = res;
+        if (this.response.status == 'success') {
+          this.presentToast(this.response.message);
+          this.getEmp(this.role);
+        }
+      }
+    );
+  }
 
 
   logout() {

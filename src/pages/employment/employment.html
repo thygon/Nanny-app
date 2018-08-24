@@ -22,7 +22,6 @@
 
 
 <ion-content padding>
-    <p text-center *ngIf="emp == null ">Not Employed!</p>
     <ion-list *ngIf="employee == null && emp != null ">
         <ion-list-header no-lines>
             My Employer
@@ -35,7 +34,7 @@
         </ion-item>
         <ion-buttons end padding>
             <button ion-button (click)="rateEmployer()">Rate</button>
-            <button ion-button (click)="quit()">Quit</button>
+            <button ion-button (click)="quit()">End Contract</button>
         </ion-buttons>
 
         <ion-list-header>
@@ -57,11 +56,26 @@
         </ion-item>
         <ion-buttons end padding>
             <button ion-button (click)="rateEmployee()">Rate</button>
-            <button ion-button (click)="fire()">Fire</button>
+            <button ion-button (click)="fire()">Terminate Contract</button>
         </ion-buttons>
         <ion-list-header>
             History of Employee
         </ion-list-header>
     </ion-list>
+
+    <ion-list *ngIf="emp == null">
+        <p text-center *ngIf="unemp == null ">No Employment Requests</p>
+        <div *ngIf="unemp != null">
+
+            <ion-item *ngFor="let un of unemp">
+                <p>you have a request from {{un.mama.name}}</p>
+                <p>
+                    <button ion-button (click)="confirm(un.id)">Confirm</button>
+                    <button ion-button (click)="reject(un.id)">Reject</button>
+                </p>
+            </ion-item>
+        </div>
+    </ion-list>
+
 
 </ion-content>
