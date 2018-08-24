@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { Base64 } from '@ionic-native/base64';
-import { Storage } from '@ionic/storage';
-
+import { FileChooser } from '@ionic-native/file-chooser';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -31,10 +28,8 @@ export class ProfilePage {
   constructor(public navCtrl: NavController,
      public navParams: NavParams,
      private app: AppProvider,
-     private imagePicker: ImagePicker,
-     private base64: Base64, 
-     public toastCtrl: ToastController,
-    public store : Storage) {
+     private fc: FileChooser,
+     public toastCtrl: ToastController) {
 
   }
 
@@ -54,20 +49,14 @@ export class ProfilePage {
 
   getPhoto() {
     this.profile.dpic = this.imgPreview;
-    console.log(this.profile);
-    let options = {
-      maximumImagesCount: 1
-    };
-    this.imagePicker.getPictures(options).then((results) => {
-      for (var i = 0; i < results.length; i++) {
-        this.imgPreview = results[i];
-        this.base64.encodeFile(results[i]).then((base64File: string) => {
-          this.profile.dpic = base64File;
-        }, (err) => {
-          console.log(err);
-        });
-      }
-    }, (err) => { });
+
+    this.fc.open().then((imageurl) =>{
+      console.log(imageurl);
+      
+    }).catch((err) =>{
+      console.log(err);
+    });
+    
   }
 
   getProfile(){
@@ -105,7 +94,7 @@ export class ProfilePage {
       if (this.response.status == "success") {
         this.presentToast('LoggedOut successfully');
 
-        this.store.remove('apitoken');
+        this.app.deleteFromStore('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
     });

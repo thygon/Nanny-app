@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams ,ToastController} from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -26,7 +24,7 @@ export class TextPage {
   public mytext: string = '';
   public sender:string;
   constructor(public navCtrl: NavController, public navParams: NavParams, public app: AppProvider,
-    public store: Storage, public toast:ToastController) {
+    public toast:ToastController) {
   }
 
   ionViewDidLoad() {
@@ -78,7 +76,7 @@ export class TextPage {
       if (this.response.status == "success") {
         this.presentToast('LoggedOut successfully');
 
-        this.store.remove('apitoken');
+        this.app.deleteFromStore('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
     }, (error) => {

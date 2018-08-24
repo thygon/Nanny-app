@@ -4,8 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule} from '@auth0/angular-jwt';
-import { ImagePicker } from '@ionic-native/image-picker';
-import { Base64 } from '@ionic-native/base64';
+import { FileChooser} from '@ionic-native/file-chooser';
 import { Geolocation } from '@ionic-native/geolocation';
 import {InterceptorModule} from './interceptor.module';
 
@@ -72,8 +71,7 @@ export function tokenGetter() {
     SplashScreen,
     Geolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    ImagePicker,
-    Base64,
+    FileChooser,
     AppProvider
   ]
 })

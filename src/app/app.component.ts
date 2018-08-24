@@ -28,6 +28,7 @@ export class MyApp {
   user: any ={'name':'Username','email':'example@gmail.com',
     'pic':'../assets/imgs/menubg.jpg'
   };
+  myrole: any = [];
   response: any = [];
 
   constructor(
@@ -45,14 +46,14 @@ export class MyApp {
     
     this.event.subscribe('user-logged', (data) =>{
       this.user = data;
+      this.myrole = this.user.role;
       console.log(this.user);
     });
     this.event.subscribe('reload', (data) => {
       this.user = data;
+      this.myrole = this.user.role; 
       console.log(this.user);
     });
-
-    this.app.myheaders();
     this.setHome();
     
 
@@ -64,7 +65,7 @@ export class MyApp {
       { title: 'Requests', component: RequestsPage },
       { title: 'Profile', component: ProfilePage },
       { title: 'Employment', component: EmploymentPage },
-      { title: 'Account', component: AccountPage },
+      { title: 'Payment', component: AccountPage },
     ];
   
   }

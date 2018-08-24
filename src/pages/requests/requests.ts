@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController, AlertController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
-
 import { AppProvider } from '../../providers/app/app';
 
 import{ LoginPage } from '../login/login';
@@ -30,7 +28,7 @@ export class RequestsPage {
               private app : AppProvider,
               private toastCtrl: ToastController,
               private alert : AlertController,
-              private store : Storage) {
+            ) {
 
     this.checkIfMama();
   }
@@ -212,7 +210,7 @@ export class RequestsPage {
 
       if (this.response.status == "success") {
         this.presentToast('LoggedOut successfully');
-        this.store.remove('apitoken');
+        this.app.deleteFromStore('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
     }, (error) => {

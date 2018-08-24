@@ -23,7 +23,15 @@
 
 
 <ion-content padding>
-    <p text-center *ngIf="acc == null">No account!</p>
+    <div text-center *ngIf="acc == null">
+        <p>GO TO Mpesa</p>
+        <p>Lipa na mpesa</p>
+        <p>Pay Bill</p>
+        <p>Account Nannycom</p>
+        <p>Amount 1000</p>
+        <p>PIN</p>
+        <p>Enter Mpesa Code Below</p>
+    </div>
     <ion-list *ngIf="acc != null">
         <ion-list-header no-lines>
             <h1>My Account</h1>

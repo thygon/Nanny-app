@@ -28,6 +28,7 @@ export class RegisterPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private app: AppProvider, public loadingCtrl: LoadingController, 
     public toastCtrl: ToastController) {
+      console.log('page is loading');
   }
 
   ionViewDidLoad() {
@@ -38,7 +39,6 @@ export class RegisterPage {
   presentLoading(msg) {
     this.loader = this.loadingCtrl.create({
       content: msg + "...",
-      duration: 3000
     });
     this.loader.present();
   }
@@ -76,11 +76,14 @@ export class RegisterPage {
     }
 
   }
+  
 
   getRoles(){
+    this.presentLoading('Please wait');
     this.app.get('role').subscribe(res =>{
       this.response = res;
       this.roles = this.response.data;
+      this.loader.dismiss();
       console.log(this.roles);
     }, (error) => {
       console.log(error)

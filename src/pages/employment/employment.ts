@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,ToastController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -29,7 +28,6 @@ export class EmploymentPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams,
               private app:AppProvider,
-              private store:Storage,
               private toast:ToastController) {
   }
 
@@ -87,7 +85,7 @@ export class EmploymentPage {
   }
 
   fire(){
-    this.app.post({}, 'mama/fire').subscribe(res =>{
+    this.app.post('mama/fire',{}).subscribe(res =>{
       this.response = res;
       if (this.response.status == 'success'){
         this.presentToast(this.response.message);
@@ -101,7 +99,7 @@ export class EmploymentPage {
   }
 
   quit(){
-    this.app.post({}, 'nani/quite').subscribe(res => {
+    this.app.post('nani/quite',{}).subscribe(res => {
       this.response = res;
       if (this.response.status == 'success') {
         this.presentToast(this.response.message);
@@ -120,7 +118,7 @@ export class EmploymentPage {
       if (this.response.status == "success") {
         this.presentToast('LoggedOut successfully');
 
-        this.store.remove('apitoken');
+        this.app.deleteFromStore('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
     });

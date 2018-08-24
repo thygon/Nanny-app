@@ -45,7 +45,6 @@ export class RatePage {
   }
 
   rateNani(){
-    console.log(this.nani);
     this.app.post( 'mama/rate',this.nani).subscribe(res =>{
       this.response = res;
       if (this.response.status == 'success'){

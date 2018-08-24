@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams ,ToastController, AlertController} from 'ionic-angular'; 
-import { Storage } from '@ionic/storage';
+import { IonicPage, NavController, NavParams ,ToastController, AlertController} from 'ionic-angular';
 import { AppProvider } from '../../providers/app/app';
 
 import { LoginPage } from '../login/login';
@@ -26,7 +25,6 @@ export class AccountPage {
   constructor(public navCtrl: NavController, 
     public navParams: NavParams,
     private app: AppProvider,
-    private store: Storage,
     private toast: ToastController,
     private alert:AlertController) {
 
@@ -79,7 +77,7 @@ export class AccountPage {
         {
           text: 'Save',
           handler: data => {
-            this.app.post(JSON.stringify(data), 'mama/pay').subscribe(res => {
+            this.app.post('mama/pay',JSON.stringify(data)).subscribe(res => {
               this.response = res;
               this.presentToast(this.response.message);
               this.getMyAcc();
@@ -102,7 +100,7 @@ export class AccountPage {
       if (this.response.status == "success") {
         this.presentToast('LoggedOut successfully');
 
-        this.store.remove('apitoken');
+        this.app.deleteFromStore('apitoken');
         this.navCtrl.setRoot(LoginPage);
       }
     }, error =>{

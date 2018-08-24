@@ -39,7 +39,6 @@ export class LoginPage {
   presentLoading(msg) {
     this.loader = this.loadingCtrl.create({
       content: msg+"...",
-      duration: 3000
     });
     this.loader.present();
   }
@@ -58,7 +57,7 @@ export class LoginPage {
   }
 
   login():void{
-    this.presentLoading("Please wait");
+    this.presentLoading("Logging");
     this.app.login(
       {'email':this.email,
       'password':this.password,'remember': this.remember})
