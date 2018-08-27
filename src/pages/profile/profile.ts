@@ -19,6 +19,7 @@ import { LoginPage } from '../login/login';
 })
 export class ProfilePage {
 
+  isMama: boolean = false;
   imgPreview = 'assets/imgs/logo.png';
   response: any =[];
   profile: any = {
@@ -63,6 +64,9 @@ export class ProfilePage {
     this.app.get('profile').subscribe(res =>{
       this.response = res;
       this.profile = this.response.data;
+      if (this.response.role == 'mama' ){
+        this.isMama = true;
+      }
       console.log(this.profile);
       this.profile.postal = this.profile.address.postal;
       console.log(this.profile.postal);

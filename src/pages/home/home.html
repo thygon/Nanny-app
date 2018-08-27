@@ -100,7 +100,7 @@
         </div>
     </ion-list>
 
-    <ion-fab right bottom>
+    <ion-fab right bottom *ngIf="isEmployed">
         <button ion-fab mini (click)="distress()"><ion-icon name="sad"></ion-icon></button>
     </ion-fab>
 

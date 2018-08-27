@@ -69,7 +69,23 @@ export class RegisterPage {
                this.presentToast(this.response.message);
              }
       }, (error) => {
-        console.log(error)
+        this.loader.dismiss();
+        this.response = error.error;
+        var errors = this.response.errors;
+        var formerror: string = '';
+
+        if (errors.hasOwnProperty('name')) {
+          formerror += errors.name;
+        } else if (errors.hasOwnProperty('email')) {
+          formerror += errors.email;
+        } else if (errors.hasOwnProperty('dob')) {
+          formerror += errors.dob;
+        } else if (errors.hasOwnProperty('password')) {
+          formerror += errors.password;
+        }
+
+        this.presentToast(formerror);
+        console.log(error);
       });
     }else{
       this.presentToast('passwords dont match');

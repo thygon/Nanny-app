@@ -29,7 +29,9 @@ export class MyApp {
     'pic':'../assets/imgs/menubg.jpg'
   };
   myrole: any = [];
+  role: string ='';
   response: any = [];
+
 
   constructor(
     public platform: Platform,
@@ -47,12 +49,16 @@ export class MyApp {
     this.event.subscribe('user-logged', (data,role) =>{
       this.user = data;
       this.myrole = role;
-      console.log(this.user);
+      this.role = this.myrole.role;
+      console.log(this.role);
     });
     this.event.subscribe('reload', (data) => {
       this.user = data;
-      this.myrole = this.user.role; 
-      console.log(this.user);
+      this.myrole = this.user.role;
+       this.myrole.forEach(e => {
+         this.role = e.role;
+       });
+      
     });
     this.setHome();
     

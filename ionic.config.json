@@ -1,8 +1,7 @@
 {
-    "name": "Nany",
-    "app_id": "",
-    "type": "ionic-angular",
-    "integrations": {
-        "cordova": {}
-    }
+  "name": "Nany",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
 }

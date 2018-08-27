@@ -38,6 +38,13 @@
             <p text-wrap>{{profile.address | json }}</p>
         </ion-item>
         <ion-item>Education Level: {{profile.level }}</ion-item>
+        <ion-item *ngFor="let r of rate">
+            <p>Cleaniness: {{r.detail_rating.clean}}</p>
+            <p>Cooking: {{r.detail_rating.cooking}}</p>
+            <p>hardworking: {{(r.detail_rating.hardworking == 1)?'true':'false'}}</p>
+            <p>Respectfulness: {{(r.detail_rating.respect == 1)?'true':'false'}}</p>
+            <p>{{(r.detail_rating.more != null)? r.detail_rating.more:''}}</p>
+        </ion-item>
 
     </ion-list>
 

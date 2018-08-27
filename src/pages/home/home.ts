@@ -26,6 +26,7 @@ export class HomePage {
   private employers: any = [];
   public notifycount;
   public loader:any;
+  private isEmployed: boolean = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -45,6 +46,8 @@ export class HomePage {
       this.response = data;
       this.event.publish('reload', this.response.user);
     });
+
+    this.checkIfEmployed();
     
     this.checkIfMama();
     this.app.get('noticount').subscribe(res =>{
@@ -126,6 +129,13 @@ export class HomePage {
       }
     }, e =>{
       console.log(e);
+    });
+  }
+  checkIfEmployed(){
+    this.app.get('checkemployed').subscribe((res) =>{
+      if (res == true){
+        this.isEmployed = true;
+      }
     });
   }
 
