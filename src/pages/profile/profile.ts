@@ -23,7 +23,7 @@ export class ProfilePage {
   imgPreview = 'assets/imgs/logo.png';
   response: any =[];
   profile: any = {
-    'id':'','dob':'','age':'','shortmsg':'','level':'','dpic':''
+    'id': '', 'dob': '', 'age': '', 'shortmsg': '', 'level': '', 'dpic':'assets/imgs/logo.png'
     , 'goodconduct': '', 'postal': '', 'city': '', 'code': '','amount':''
   };
   constructor(public navCtrl: NavController,
