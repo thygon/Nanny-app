@@ -18,7 +18,7 @@ import { HomePage } from '../../pages/home/home';
 export class RegisterPage {
 
   private formData: any = {
-     'role':'', 'name':'','email':'','password':'','confirmpassword':'','dob':'',
+     'role':'', 'name':'','email':'','password':'','confirmpassword':'','dob':'','terms':''
   };
 
   private loader;

@@ -23,10 +23,11 @@
 
 <ion-content padding>
     <ion-list>
-        <ion-item *ngFor="let notification of notifications">
 
+        <ion-item *ngFor="let notification of notifications">
             <a href="#" (click)="openRequest(notification.id,notification.data.parent.id,notification.data.title)">
                 {{notification.data.msg}}
+                
                 <p>{{notification.data.user.name}}</p>
             </a>
         </ion-item>

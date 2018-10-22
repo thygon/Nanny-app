@@ -121,6 +121,10 @@ export class EmploymentPage {
           this.presentToast(this.response.message);
           this.getEmp(this.role);
         }
+        if (this.response.status == 'error') {
+          this.presentToast(this.response.message);
+          this.getEmp(this.role);
+        }
       }
     );
   }

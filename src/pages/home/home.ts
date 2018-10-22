@@ -26,7 +26,7 @@ export class HomePage {
   private employers: any = [];
   public notifycount;
   public loader:any;
-  private isEmployed: boolean = false;
+  private isEmployed: boolean = true;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -36,7 +36,9 @@ export class HomePage {
               public event: Events,
              public geolocation:Geolocation) 
   {
+    this.checkIfEmployed();
     console.log(this.isMama);
+    console.log(this.isEmployed);
     
   }
   
@@ -47,7 +49,7 @@ export class HomePage {
       this.event.publish('reload', this.response.user);
     });
 
-    this.checkIfEmployed();
+   
     
     this.checkIfMama();
     this.app.get('noticount').subscribe(res =>{
@@ -133,8 +135,10 @@ export class HomePage {
   }
   checkIfEmployed(){
     this.app.get('checkemployed').subscribe((res) =>{
-      if (res == true){
-        this.isEmployed = true;
+      this.response = res;
+      console.log(this.response);
+      if (this.response.isemployed == 1 ){
+        this.isEmployed = false;
       }
     });
   }
@@ -146,13 +150,10 @@ export class HomePage {
 
   distress() {
     let location = {};
-    this.geolocation.getCurrentPosition().then(
-      (res) =>{
-        location = res.coords;
-      }).catch((err) =>{ console.log(err)});
-    this.app.post( 'distress',{location}).subscribe(res => {
+    location = { 'lat': 0, 'lng': 0 }
+    this.app.post('distress', { location }).subscribe(res => {
       console.log('call send');
-    }, e =>{ console.log(e)});
+    }, e => { console.log(e) });
   }
 
 

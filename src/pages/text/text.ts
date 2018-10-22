@@ -55,7 +55,7 @@ export class TextPage {
   sendText(){
     let id = this.message_id;
     if (this.mytext != ''){
-      this.app.postid('msg/send/text/',{ 'message': this.mytext },id).subscribe(res =>{
+      this.app.postid('msg/send/text',{ 'message': this.mytext },id).subscribe(res =>{
       this.response = res;
       this.mytext = '';
       this.presentToast(this.response.msg);

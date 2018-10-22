@@ -71,6 +71,7 @@ export class NotificationPage {
     if (who == 'Employment') {
       page = EmploymentPage;
     }
+    this.getNotifications();
     
     this.navCtrl.push(page, {'id': req_id});
 

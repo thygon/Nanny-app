@@ -1,3 +1,10 @@
 page-register {
-
+    ion-list {
+        ion-item {
+            padding-left: 0 !important;
+            .wordwrap {
+                font-size: 13px;
+            }
+        }
+    }
 }

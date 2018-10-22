@@ -104,6 +104,15 @@ export class DetailPage {
               res =>{
                 this.response = res;
                 this.presentToast(this.response.msg);
+              }, (error) =>{
+                this.response = error.error;
+                var formerror: string = this.response.message;
+                var error422 = this.response.errors
+                if (error422.hasOwnProperty('message')) {
+                  formerror += error422.message;
+                }
+                this.presentToast(formerror);
+                console.log(error);
               }
             );
           }

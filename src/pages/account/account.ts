@@ -66,6 +66,11 @@ export class AccountPage {
           name: 't_id',
           placeholder: 'transaction id'
         },
+        {
+          name: 'amount',
+          type:'number',
+          placeholder: 'amount deposited'
+        },
       ],
       buttons: [
         {
@@ -77,11 +82,22 @@ export class AccountPage {
         {
           text: 'Save',
           handler: data => {
-            this.app.post('mama/pay',JSON.stringify(data)).subscribe(res => {
+            this.app.post('mama/deposit',JSON.stringify(data)).subscribe(res => {
               this.response = res;
               this.presentToast(this.response.message);
               this.getMyAcc();
             }, error =>{
+              this.response = error.error;
+              var formerror: string = this.response.message ;
+              var amount = this.response.errors
+              if(amount.hasOwnProperty('amount')){
+                formerror += amount.amount;
+              }
+              else if(amount.hasOwnProperty('t_id')) {
+                formerror +='transaction id is required';
+              }
+
+              this.presentToast(formerror);
               console.log(error);
             });
 
